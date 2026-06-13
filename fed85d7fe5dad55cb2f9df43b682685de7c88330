@@ -1,0 +1,29 @@
+src/components/addPictures/AddPictures.jsx
+  e807661ac673960c 19,49,65-66,158,160,162
+src/components/hooks/ImgGallery.jsx
+  e807661ac673960c 69-74,403-404,407-408,410-411,414,418,441-442,456,474-477,484,504,506,512-516,529,533-534,536,540,543-548,551,554-558,561,565,568-573,576,579-583,586,760-761,763-764,767,782,788-789,793
+src/components/press/AddPress.jsx
+  e807661ac673960c 17,24-25,122,131,137,139,145-146,275-288,290,329-331,358-360
+src/components/exhibitions/AddExhibition.jsx
+  e807661ac673960c 30-32,93,107,114,120-121,202-204,206,248-250,252-257,259-260,262,270-272
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "fed85d7fe5dad55cb2f9df43b682685de7c88330",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 147,
+      "total_deletions": 57,
+      "accepted_lines": 134,
+      "overriden_lines": 0
+    }
+  }
+}
