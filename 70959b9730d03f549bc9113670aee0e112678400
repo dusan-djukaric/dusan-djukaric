@@ -1,0 +1,23 @@
+src/components/hooks/ImgGallery.jsx
+  e807661ac673960c 1,48-50,83,124,192-209,674-677,680-681
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "70959b9730d03f549bc9113670aee0e112678400",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 32,
+      "total_deletions": 36,
+      "accepted_lines": 30,
+      "overriden_lines": 0
+    }
+  }
+}
