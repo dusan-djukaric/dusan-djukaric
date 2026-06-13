@@ -1,0 +1,43 @@
+server/routes/exhibitions.js
+  e807661ac673960c 1-221
+src/services/apiClient.js
+  e807661ac673960c 136-156
+src/components/hooks/ImgGallery.jsx
+  e807661ac673960c 48-54,56,91-92,95-98,100,109,111-115,119-123,132,209
+src/components/exhibitions/exhibitions.jsx
+  e807661ac673960c 1,5,8-10,19-35,45-46,49-50,53-114,118,120-121
+src/components/admin/Admin.jsx
+  e807661ac673960c 34
+server/scripts/update-exhibition-notes.js
+  e807661ac673960c 1-32
+server/server.js
+  e807661ac673960c 35,40
+server/scripts/seed-exhibitions.js
+  e807661ac673960c 1-91
+src/App.js
+  e807661ac673960c 32
+src/components/addPictures/AddPictures.jsx
+  e807661ac673960c 4,7-9,55,59,66-67,69-74,76,78-86,89-92,109,120-124,129,137,141-161
+src/components/exhibitions/AddExhibition.jsx
+  e807661ac673960c 1-264
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "133f20b1d9132d3084e098a77e924f438cbada65",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 909,
+      "total_deletions": 202,
+      "accepted_lines": 811,
+      "overriden_lines": 0
+    }
+  }
+}
