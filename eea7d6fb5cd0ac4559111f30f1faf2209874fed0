@@ -1,0 +1,35 @@
+src/components/hooks/AboutArtist.jsx
+  e807661ac673960c 30,52,61
+src/components/main-section/Home.jsx
+  e807661ac673960c 42
+src/components/hooks/Handlers.jsx
+  e807661ac673960c 1
+src/components/hooks/ShowPopUp.jsx
+  e807661ac673960c 61
+src/components/hooks/ImgGallery.jsx
+  e807661ac673960c 202,271,308-309,314,321-322
+src/helper_functions/sessionManager.js
+  e807661ac673960c 38
+src/components/hooks/AboutArt.jsx
+  e807661ac673960c 30,52,62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "eea7d6fb5cd0ac4559111f30f1faf2209874fed0",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 18,
+      "total_deletions": 39,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    }
+  }
+}
