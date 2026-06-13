@@ -1,0 +1,29 @@
+src/services/apiClient.js
+  e807661ac673960c 27,30-31,93-98,102
+src/components/addPictures/AddPictures.jsx
+  e807661ac673960c 12,63-64,70-71,74-75,138-143
+src/helper_functions/aws_helper_functions.js
+  e807661ac673960c 1-8,33,93,109
+server/routes/s3.js
+  e807661ac673960c 175-177,187-188,191,194,204-205,208,212,216,218-224,226-227,230,232,238-240,271-279,282,285,287,301-302,305,309-315,317-326,328,334-336
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "127a438ebb5904e6c8f28d7fa3c7626cdd313c56",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 110,
+      "total_deletions": 203,
+      "accepted_lines": 96,
+      "overriden_lines": 0
+    }
+  }
+}
