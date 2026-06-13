@@ -1,0 +1,21 @@
+server/api/working.js
+  s_e807661ac67396::t_16f3b4576f475f 31-33
+  s_e807661ac67396::t_c65a829da260b7 79-80
+  s_e807661ac67396::t_6f6c0511f42ddc 5-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b0d573badd7d0c308775996cd9cfa48d92297ba8",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
