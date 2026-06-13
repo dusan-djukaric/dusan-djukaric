@@ -1,0 +1,25 @@
+server/api/working.js
+  s_e807661ac67396::t_707b792882285c 176,180,184-188,190-191,201-204
+  s_e807661ac67396::t_cbe9740ec5a7ce 277,281,285,289,291-299,302
+  s_e807661ac67396::t_0a2c0382dcc59d 10-16,18
+  s_e807661ac67396::t_bbaced4765977d 234,238-242,246-249,251,260-261,263-264,267-268,270,273
+  s_e807661ac67396::t_4a8fbc0551dde4 116,121,125-127,131-132,135-136,139,150,152-153,160-163,165,169,171
+  s_e807661ac67396::t_2a5c428d2a0a5f 215,219-223,226
+  s_e807661ac67396::t_2c34b319f2f674 53,56,59-61,68,70-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "5c506c80b5fe0ecddaaf6e0d66acd165d6096193",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
