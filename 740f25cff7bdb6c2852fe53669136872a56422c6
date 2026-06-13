@@ -1,0 +1,29 @@
+src/components/footer/Footer.jsx
+  e807661ac673960c 17,25,38
+src/components/hooks/PayPal.jsx
+  e807661ac673960c 5
+src/components/contact/Contact.jsx
+  e807661ac673960c 1,91-92,99-100,107-108,114
+src/components/hooks/Info.jsx
+  e807661ac673960c 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "740f25cff7bdb6c2852fe53669136872a56422c6",
+  "prompts": {
+    "e807661ac673960c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>",
+      "messages": [],
+      "total_additions": 14,
+      "total_deletions": 34,
+      "accepted_lines": 13,
+      "overriden_lines": 0
+    }
+  }
+}
