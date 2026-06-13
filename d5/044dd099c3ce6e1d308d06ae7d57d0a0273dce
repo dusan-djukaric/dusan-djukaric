@@ -1,0 +1,21 @@
+src/components/admin/Admin.jsx
+  s_e807661ac67396::t_d02a68cbb57d1f 50
+src/components/gallery/Filter.jsx
+  s_e807661ac67396::t_4816e61e0cab70 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "d5044dd099c3ce6e1d308d06ae7d57d0a0273dce",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
