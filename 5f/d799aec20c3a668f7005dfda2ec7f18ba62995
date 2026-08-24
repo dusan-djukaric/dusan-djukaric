@@ -1,0 +1,52 @@
+src/components/addPictures/PaintingModal.jsx
+  s_e807661ac67396::t_fa4d10ea24e818 1-392
+server/api/working.js
+  s_e807661ac67396::t_0bc4a2c84ae6af 239-242
+  s_e807661ac67396::t_3c914ca61beff2 237-238
+  s_e807661ac67396::t_43d22c3d4e13f5 168-169
+  s_e807661ac67396::t_1c8c8ccad375e5 243-247
+  s_e807661ac67396::t_34d8c9a45a4904 170-173
+  s_e807661ac67396::t_3b7db8248afd95 174-178
+  s_e807661ac67396::t_bb93275560e680 212
+src/components/hooks/ShowPopUp.jsx
+  s_e807661ac67396::t_4fac9a12e61bbb 5
+  s_e807661ac67396::t_c8bb1eb3335602 156
+  s_e807661ac67396::t_d84a9bbe1bcd85 53-63
+  s_e807661ac67396::t_7fe8a543851c66 80
+  s_e807661ac67396::t_34e756fe6b6d6f 102-108
+  s_e807661ac67396::t_2e0fddd76f8ccd 47-48,50-52,64-65
+vercel.json
+  s_e807661ac67396::t_01d46766670216 6-19
+src/components/addPictures/AddPictures.jsx
+  s_e807661ac67396::t_27c77a64d0d2bf 1,5,11,68,70-71,73,79-87
+src/services/apiClient.js
+  s_e807661ac67396::t_aadcc4a755d8c3 110-111
+  s_e807661ac67396::t_9812b11ea0dfb7 103,116-119
+  s_e807661ac67396::t_6129746f6f4ddf 112-115
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_50933b59aeb38d 551
+  s_e807661ac67396::t_732144340e8e19 555-564
+  s_e807661ac67396::t_368c3da975a674 648-664
+  s_e807661ac67396::t_fad494143cf51d 317
+  s_e807661ac67396::t_e98bc9e010fa63 84
+  s_e807661ac67396::t_8da6ac95fe92ba 14
+  s_e807661ac67396::t_d75c5ced5ba331 431
+api/prerender.js
+  s_e807661ac67396::t_a2ca77cfaa1854 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "5fd799aec20c3a668f7005dfda2ec7f18ba62995",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
