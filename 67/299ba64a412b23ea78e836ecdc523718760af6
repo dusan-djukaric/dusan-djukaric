@@ -1,0 +1,19 @@
+public/index.html
+  s_e807661ac67396::t_5f29af1a01b21a 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "67299ba64a412b23ea78e836ecdc523718760af6",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
