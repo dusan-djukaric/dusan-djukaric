@@ -1,0 +1,19 @@
+vercel.json
+  s_e807661ac67396::t_9ce8e3bc8705a4 9,14,17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "20d2544dad7170ac034eefe52b37d1626b592b1a",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
