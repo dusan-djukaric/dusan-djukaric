@@ -1,0 +1,28 @@
+src/App.js
+  s_e807661ac67396::t_9a33d8a446eb12 29
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_8575de5dc8bdc1 51
+  s_e807661ac67396::t_bd756b898a96f6 329
+  s_e807661ac67396::t_a5e7f6a53fb09c 299
+  s_e807661ac67396::t_e4efdb9173fdff 350-352
+  s_e807661ac67396::t_031828b668ebab 9
+  s_e807661ac67396::t_f36eb9e26e6c5b 52-53
+  s_e807661ac67396::t_7ac4b9162507be 297-298,300-314
+  s_e807661ac67396::t_2483856838004a 334-337
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "5b0d1c29975f99ac16ed98253c4155ff56097e3a",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Aleksandra Karadzic <aleksandra.p.karadzic@gmail.com>"
+    }
+  }
+}
