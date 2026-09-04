@@ -1,0 +1,26 @@
+src/components/press/Press.jsx
+  s_e807661ac67396::t_22ed9a9e8b4f57 189-206
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_2d418382c9a313 687
+  s_e807661ac67396::t_a50df517e4a53e 20,22-24
+  s_e807661ac67396::t_daaf529ce1a18d 333
+  s_e807661ac67396::t_534eaa66ec1bc1 364
+  s_e807661ac67396::t_9f89582fab6125 28,33-38,40-43
+  s_e807661ac67396::t_f2bab96b844022 21,25-27,29-32,39,44-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "f3034b06ae6f81ef4c795a2a29081d2e5b261e01",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
