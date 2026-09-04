@@ -1,0 +1,265 @@
+VERCEL_FULL_STACK_DEPLOYMENT.md
+  s_e807661ac67396::t_5910d4d9351d3e 1-142
+api/prerender.js
+  s_e807661ac67396::t_25193ec225cdb1 1-116
+server/api/working.js
+  s_89a5595743e1bc::t_e952a93582d816 1-404
+server/routes/s3.js
+  s_89a5595743e1bc::t_d0655da9e2774b 1-354
+src/components/addPictures/PaintingModal.jsx
+  s_89a5595743e1bc::t_255d87d8969219 1-448
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_a154c2111f80e8 1-792
+src/components/hooks/ShowPopUp.jsx
+  s_e807661ac67396::t_2bd024eee18a31 1-173
+src/components/press/Press.jsx
+  s_89a5595743e1bc::t_3a15a51ac3c437 1-218
+src/services/apiClient.js
+  s_89a5595743e1bc::t_a621bd2d88b2fc 1-220
+.env.example
+  s_89a5595743e1bc::t_a94c7b1f579cb9 1-21
+.gitignore
+  s_89a5595743e1bc::t_5249f8ce01b652 1-55
+.idea/.gitignore
+  s_89a5595743e1bc::t_0df2b81fe9677d 1-10
+.idea/dusan-djukaric.iml
+  s_89a5595743e1bc::t_971018a894d672 1-15
+.idea/inspectionProfiles/Project_Default.xml
+  s_89a5595743e1bc::t_030d7235672c3c 1-8
+.idea/inspectionProfiles/profiles_settings.xml
+  s_89a5595743e1bc::t_cd426ed473be7b 1-6
+.idea/misc.xml
+  s_89a5595743e1bc::t_4fa5c3c0c11a76 1-7
+.idea/modules.xml
+  s_89a5595743e1bc::t_a6e4d2842ab998 1-8
+.idea/vcs.xml
+  s_89a5595743e1bc::t_994652551f50db 1-6
+PRODUCTION_DEPLOYMENT.md
+  s_89a5595743e1bc::t_137a07950bc8ca 1-195
+PRODUCTION_DEPLOYMENT_CHECKLIST.md
+  s_89a5595743e1bc::t_b421796f37c073 1-217
+PRODUCTION_SECURITY_CHECKLIST.md
+  s_89a5595743e1bc::t_ff437e549e17a9 1-124
+README.md
+  s_89a5595743e1bc::t_74dfc2f450518d 1-70
+SECURITY.md
+  s_89a5595743e1bc::t_56f0d944323e78 1-108
+SECURITY_CHECKLIST.md
+  s_89a5595743e1bc::t_7e4e200f8cb359 1-159
+SECURITY_FIX_GUIDE.md
+  s_89a5595743e1bc::t_2f6e27827bddfb 1-68
+SECURITY_HEADERS_FIX.md
+  s_89a5595743e1bc::t_c8a8456c19b9f1 1-98
+SERVER_API_DEPLOYMENT.md
+  s_89a5595743e1bc::t_269c50ade7999d 1-194
+YOUTUBE_TROUBLESHOOTING.md
+  s_89a5595743e1bc::t_a164b89808f9f8 1-198
+add-env-vars.sh
+  s_89a5595743e1bc::t_6006d9d7fe8ab3 1-15
+middleware.js
+  s_89a5595743e1bc::t_bd79dcb1bebc0a 1-18
+package-lock.json
+  s_89a5595743e1bc::t_0d9c596792ea72 1-32013
+package.json
+  s_89a5595743e1bc::t_5e816845d47beb 1-73
+public/index.html
+  s_89a5595743e1bc::t_e977dd9b9f2d81 1-121
+public/manifest.json
+  s_89a5595743e1bc::t_0253beefe336b2 1-25
+public/robots.txt
+  s_89a5595743e1bc::t_18ae6ed4e9aabf 1-3
+python_server/app.py
+  s_89a5595743e1bc::t_23ec66cae54daf 1-281
+python_server/requirements.txt
+  s_89a5595743e1bc::t_2c76a195d3e13d 1-7
+python_server/run.py
+  s_89a5595743e1bc::t_011049abb4d127 1-22
+python_server/vercel.json
+  s_89a5595743e1bc::t_4bfa87d14e5a4d 1-18
+scripts/custom-credentials.js
+  s_89a5595743e1bc::t_e3a9337aa95d3f 1-49
+scripts/generate-credentials.js
+  s_89a5595743e1bc::t_6973bf1ee3f354 1-52
+scripts/reset-credentials.js
+  s_89a5595743e1bc::t_266836015b5d62 1-127
+server/.gitignore
+  s_89a5595743e1bc::t_c3155729b80453 1
+server/api/auth.js
+  s_89a5595743e1bc::t_1fe6ba2b943ec9 1-50
+server/api/index.js
+  s_89a5595743e1bc::t_e65475810121d6 1-84
+server/api/s3.js
+  s_89a5595743e1bc::t_8072c108d565e8 1-283
+server/api/simple.js
+  s_89a5595743e1bc::t_e174d0092aa890 1-51
+server/api/test-simple.js
+  s_89a5595743e1bc::t_e2ae42e6ba95bc 1-104
+server/api/test.js
+  s_89a5595743e1bc::t_a18f8dea62fb2d 1-38
+server/lib/objectStorage.js
+  s_89a5595743e1bc::t_da1eefce8a5322 1-49
+server/middleware/auth.js
+  s_89a5595743e1bc::t_0091129314a795 1-137
+server/package-lock.json
+  s_89a5595743e1bc::t_b4225b2dbad908 1-3063
+server/package.json
+  s_89a5595743e1bc::t_299a478c4f050c 1-24
+server/routes/auth.js
+  s_89a5595743e1bc::t_bbacfccde8bae3 1-11
+server/routes/exhibitions.js
+  s_89a5595743e1bc::t_0fa362a2cdf457 1-221
+server/routes/press.js
+  s_89a5595743e1bc::t_b91c155a304a04 1-222
+server/scripts/fetch-from-aws.js
+  s_89a5595743e1bc::t_243a26bdeaa334 1-153
+server/scripts/migrate-to-oracle.js
+  s_89a5595743e1bc::t_4412c6c487033d 1-139
+server/scripts/purge-deleted-from-oracle.js
+  s_89a5595743e1bc::t_8d1961776b57d3 1-105
+server/scripts/seed-exhibitions.js
+  s_89a5595743e1bc::t_b86c2654ee2c2f 1-91
+server/scripts/seed-press.js
+  s_89a5595743e1bc::t_5e4f4bbffe330c 1-178
+server/scripts/update-exhibition-notes.js
+  s_89a5595743e1bc::t_aff61e9ee6236b 1-32
+server/scripts/upload-to-oracle.js
+  s_89a5595743e1bc::t_47670fc0ce79b7 1-115
+server/server-cpanel.js
+  s_89a5595743e1bc::t_ec08bca8aa632a 1-97
+server/server.js
+  s_89a5595743e1bc::t_02fc5f49da18dd 1-71
+server/vercel.json
+  s_89a5595743e1bc::t_19c871290c1731 1-18
+src/App.css
+  s_89a5595743e1bc::t_a6fd87b57af77c 1-42
+src/App.js
+  s_89a5595743e1bc::t_f6ef61cbcd2384 1-45
+src/App.test.js
+  s_89a5595743e1bc::t_98a1d8eb60c161 1-8
+src/components/addPictures/AddPictures.jsx
+  s_89a5595743e1bc::t_588d2caf14adac 1-100
+src/components/admin/Admin.jsx
+  s_89a5595743e1bc::t_d4a056154d22eb 1-115
+src/components/biography/Biography.jsx
+  s_89a5595743e1bc::t_93128cc0f1d83d 1-19
+src/components/contact/Contact.jsx
+  s_89a5595743e1bc::t_d70dda8cf0854a 1-156
+src/components/exhibitions/AddExhibition.jsx
+  s_89a5595743e1bc::t_92dc468ec6e931 1-284
+src/components/exhibitions/exhibitions.jsx
+  s_89a5595743e1bc::t_88e7c4987b144b 1-127
+src/components/footer/Footer.jsx
+  s_89a5595743e1bc::t_cafbd29863f7ac 1-48
+src/components/gallery/Filter.jsx
+  s_89a5595743e1bc::t_fd7fa0b5bfee68 1-74
+src/components/gallery/Gallery.jsx
+  s_89a5595743e1bc::t_2286cd73566e93 1-39
+src/components/hooks/AboutArt.jsx
+  s_89a5595743e1bc::t_df41dc178c9404 1-86
+src/components/hooks/AboutArtist.jsx
+  s_89a5595743e1bc::t_166f912f712fca 1-94
+src/components/hooks/BrowseGallery.jsx
+  s_89a5595743e1bc::t_1ae092ea7f0479 1-29
+src/components/hooks/Button.jsx
+  s_89a5595743e1bc::t_d64ea3514fade6 1-11
+src/components/hooks/Handlers.jsx
+  s_89a5595743e1bc::t_9b4a1214470c66 1-25
+src/components/hooks/Info.jsx
+  s_89a5595743e1bc::t_b7fe47435418ca 1-23
+src/components/hooks/InfoMessage.jsx
+  s_89a5595743e1bc::t_2442013bad91c9 1-53
+src/components/hooks/InfoMobile.jsx
+  s_89a5595743e1bc::t_4dd55b56674b6d 1-17
+src/components/hooks/PayPal.jsx
+  s_89a5595743e1bc::t_0f77565b59110e 1-24
+src/components/layout/Layout.jsx
+  s_89a5595743e1bc::t_ba7ff3cb6ea028 1-17
+src/components/main-section/Home.jsx
+  s_89a5595743e1bc::t_07ba671e010d8e 1-70
+src/components/nav-bar/NavBar.jsx
+  s_89a5595743e1bc::t_f9b93f268792e8 1-86
+src/components/press/AddPress.jsx
+  s_89a5595743e1bc::t_33c4a6ec383ab1 1-371
+src/components/press/YouTube.jsx
+  s_89a5595743e1bc::t_7a24df424d91b7 1-24
+src/components/shareButtons/ShareButtons.jsx
+  s_89a5595743e1bc::t_2da8d69f09ba38 1-94
+src/components/slider/Slider.jsx
+  s_89a5595743e1bc::t_7516941ae89041 1-126
+src/components/slider/SliderBar.jsx
+  s_89a5595743e1bc::t_62852bdf9e5ce3 1-31
+src/components/slider/Sliders.jsx
+  s_89a5595743e1bc::t_90e071ed94aea2 1-28
+src/helper_functions/auditLogger.js
+  s_89a5595743e1bc::t_339df432f5460d 1-156
+src/helper_functions/authService.js
+  s_89a5595743e1bc::t_cb5680ff078620 1-68
+src/helper_functions/authServiceFallback.js
+  s_89a5595743e1bc::t_5a66d5db594dcb 1-35
+src/helper_functions/awsSecurityMonitor.js
+  s_89a5595743e1bc::t_a8100afad507ce 1-198
+src/helper_functions/aws_helper_functions.js
+  s_89a5595743e1bc::t_602756bffaa52c 1-103
+src/helper_functions/rateLimiter.js
+  s_89a5595743e1bc::t_509ccd6c288442 1-86
+src/helper_functions/sessionManager.js
+  s_89a5595743e1bc::t_403659ff4460bd 1-127
+src/i18n.js
+  s_89a5595743e1bc::t_61a7087c38db81 1-41
+src/index.css
+  s_89a5595743e1bc::t_b70f393759da9a 1-85
+src/index.js
+  s_89a5595743e1bc::t_06677b44ed3437 1-24
+src/locales/en/en.json
+  s_89a5595743e1bc::t_40c36f2933bfc1 1-109
+src/locales/sr/sr.json
+  s_89a5595743e1bc::t_2eb7b81486bc6d 1-108
+src/logo.svg
+  s_89a5595743e1bc::t_67395929056a60 1
+src/reportWebVitals.js
+  s_89a5595743e1bc::t_4a6e05ded74859 1-21
+src/services/i18next.js
+  s_89a5595743e1bc::t_a7a4686e0cc955 1-18
+src/services/languagesList.json
+  s_89a5595743e1bc::t_314bfc85fa81f6 1-730
+src/setupTests.js
+  s_89a5595743e1bc::t_6253ad587fa099 1-5
+src/utils/PrivateRoutes.js
+  s_89a5595743e1bc::t_1d1d598fb4d84b 1-45
+start-server.sh
+  s_89a5595743e1bc::t_9c97cb02617949 1-23
+tailwind.config.js
+  s_89a5595743e1bc::t_6e85885be1d297 1-9
+test-backend.js
+  s_89a5595743e1bc::t_9fcf639b95080f 1-67
+vercel-test.json
+  s_89a5595743e1bc::t_2e65924471de1e 1-15
+vercel.json
+  s_89a5595743e1bc::t_ece1bcd9c2b8f0 1-7
+yarn.lock
+  s_89a5595743e1bc::t_9d297482148527 1-10166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9409b33adb8311ab5a0a9849a94f2552f21f71f2",
+  "prompts": {},
+  "sessions": {
+    "s_89a5595743e1bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-acompact-57c7e83faa3ec3fd",
+        "model": "unknown"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    },
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
