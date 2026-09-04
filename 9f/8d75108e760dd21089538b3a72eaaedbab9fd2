@@ -1,0 +1,25 @@
+server/api/working.js
+  s_e807661ac67396::t_ede56c5374e330 1-365
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_b4d1f9006a0944 1-744
+src/components/press/Press.jsx
+  s_e807661ac67396::t_37c4c19278fbf5 1-214
+src/services/apiClient.js
+  s_e807661ac67396::t_1375b02a5eadfc 1-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9f8d75108e760dd21089538b3a72eaaedbab9fd2",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "unknown"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
