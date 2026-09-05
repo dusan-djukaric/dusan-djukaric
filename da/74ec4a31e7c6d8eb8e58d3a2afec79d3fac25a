@@ -1,0 +1,263 @@
+server/api/index.js
+  s_e807661ac67396::t_dddc0c32667725 1-84
+.idea/.gitignore
+  s_e807661ac67396::t_993ef3e1bd3ee4 1-10
+src/locales/sr/sr.json
+  s_e807661ac67396::t_7a1b028f9babd4 1-108
+vercel.json
+  s_e807661ac67396::t_7215226a63524e 1-7
+src/components/slider/Sliders.jsx
+  s_e807661ac67396::t_1933c2c1cccad9 1-28
+PRODUCTION_DEPLOYMENT_CHECKLIST.md
+  s_e807661ac67396::t_6e08903c56dc20 1-217
+python_server/vercel.json
+  s_e807661ac67396::t_58f6f8582b9658 1-18
+src/services/i18next.js
+  s_e807661ac67396::t_93341fdc82804f 1-18
+server/routes/press.js
+  s_e807661ac67396::t_fde5231bd23f68 1-222
+src/components/footer/Footer.jsx
+  s_e807661ac67396::t_6defe5ba5dcc1f 1-48
+src/components/layout/Layout.jsx
+  s_e807661ac67396::t_5d1250fe0c2330 1-17
+test-backend.js
+  s_e807661ac67396::t_574ff95d6bcd9f 1-67
+src/components/addPictures/PaintingModal.jsx
+  s_89a5595743e1bc::t_755549791bcde5 1-448
+.gitignore
+  s_e807661ac67396::t_0181fd30daab42 1-55
+public/robots.txt
+  s_e807661ac67396::t_fbd0515dc5bdc1 1-3
+src/components/hooks/AboutArtist.jsx
+  s_e807661ac67396::t_e1dace9be80a71 1-94
+SECURITY_HEADERS_FIX.md
+  s_e807661ac67396::t_067f77aab0475d 1-98
+src/components/hooks/Info.jsx
+  s_e807661ac67396::t_8fbb0575802886 1-23
+server/routes/s3.js
+  s_89a5595743e1bc::t_ab57004ae9fd98 1-354
+src/components/hooks/InfoMobile.jsx
+  s_e807661ac67396::t_9bff0551f3ce94 1-17
+python_server/requirements.txt
+  s_e807661ac67396::t_81c3c4e3a651b2 1-7
+src/helper_functions/awsSecurityMonitor.js
+  s_e807661ac67396::t_ca63fd560135f0 1-198
+server/routes/auth.js
+  s_e807661ac67396::t_abc032ef20965d 1-11
+src/components/hooks/InfoMessage.jsx
+  s_e807661ac67396::t_f117c8160e3a05 1-53
+src/utils/PrivateRoutes.js
+  s_e807661ac67396::t_1324edd1a91a5b 1-45
+src/helper_functions/rateLimiter.js
+  s_e807661ac67396::t_e78188002f9160 1-86
+server/scripts/migrate-to-oracle.js
+  s_e807661ac67396::t_a387e3dbf31bdc 1-139
+server/api/s3.js
+  s_e807661ac67396::t_579168765369cf 1-283
+package-lock.json
+  s_e807661ac67396::t_e97a4c9c127f87 1-32013
+start-server.sh
+  s_e807661ac67396::t_a4933179a62774 1-23
+src/index.css
+  s_e807661ac67396::t_a313c04b0c1a2b 1-85
+src/components/shareButtons/ShareButtons.jsx
+  s_e807661ac67396::t_0c223908469cd4 1-94
+.env.example
+  s_e807661ac67396::t_bed97a0df9bc99 1-21
+server/scripts/seed-exhibitions.js
+  s_e807661ac67396::t_8877c9f278c5e0 1-91
+.idea/dusan-djukaric.iml
+  s_e807661ac67396::t_d86047f72dc246 1-15
+server/lib/objectStorage.js
+  s_e807661ac67396::t_855335ba945754 1-49
+src/components/hooks/ShowPopUp.jsx
+  s_e807661ac67396::t_297cd8ca455d16 1-173
+server/api/simple.js
+  s_e807661ac67396::t_0ecbf254a14297 1-51
+server/scripts/fetch-from-aws.js
+  s_e807661ac67396::t_0de9ce7b7f3438 1-153
+src/components/exhibitions/exhibitions.jsx
+  s_e807661ac67396::t_ce87f225b3ed4b 1-127
+src/components/slider/SliderBar.jsx
+  s_e807661ac67396::t_3c63720ea6659a 1-31
+server/api/test-simple.js
+  s_e807661ac67396::t_c261e089aae18d 1-104
+src/helper_functions/sessionManager.js
+  s_e807661ac67396::t_9a27f9807c5787 1-127
+src/components/hooks/Handlers.jsx
+  s_e807661ac67396::t_be1ff23cfebde7 1-25
+src/index.js
+  s_e807661ac67396::t_fb22eba7fb16f1 1-24
+src/setupTests.js
+  s_e807661ac67396::t_e4b097853606c8 1-5
+src/i18n.js
+  s_e807661ac67396::t_7c2df815456dc9 1-41
+server/scripts/update-exhibition-notes.js
+  s_e807661ac67396::t_c75ce1fb910d56 1-32
+server/routes/exhibitions.js
+  s_e807661ac67396::t_c2a7dd773a5ca6 1-221
+src/components/gallery/Filter.jsx
+  s_e807661ac67396::t_f5f8f5eecf8448 1-74
+PRODUCTION_SECURITY_CHECKLIST.md
+  s_e807661ac67396::t_807788270a67f2 1-124
+PRODUCTION_DEPLOYMENT.md
+  s_e807661ac67396::t_e356315d3912e1 1-195
+src/components/press/YouTube.jsx
+  s_e807661ac67396::t_b326270f0ebd94 1-24
+.idea/inspectionProfiles/profiles_settings.xml
+  s_e807661ac67396::t_ec6b7c37fa1744 1-6
+middleware.js
+  s_e807661ac67396::t_beaad8a7fb8ae3 1-18
+src/components/gallery/Gallery.jsx
+  s_e807661ac67396::t_662016044f0f96 1-39
+server/api/test.js
+  s_e807661ac67396::t_9e144ab9080d33 1-38
+src/services/languagesList.json
+  s_e807661ac67396::t_1c07bce9f08c5d 1-730
+.idea/misc.xml
+  s_e807661ac67396::t_298bae0c038049 1-7
+src/components/press/Press.jsx
+  s_89a5595743e1bc::t_674f22092e0f82 1-218
+server/.gitignore
+  s_e807661ac67396::t_13258c3e95e98a 1
+SECURITY.md
+  s_e807661ac67396::t_3ab1c8f6eebc9d 1-108
+src/reportWebVitals.js
+  s_e807661ac67396::t_8250c2f310f75c 1-21
+src/services/apiClient.js
+  s_89a5595743e1bc::t_21c62806a27a9f 1-220
+tailwind.config.js
+  s_e807661ac67396::t_06d9aa7898580e 1-9
+README.md
+  s_e807661ac67396::t_4748b051496582 1-70
+src/helper_functions/authServiceFallback.js
+  s_e807661ac67396::t_36f9b3df13efea 1-35
+src/components/hooks/AboutArt.jsx
+  s_e807661ac67396::t_1cb701795c2571 1-86
+server/api/working.js
+  s_e807661ac67396::t_fd549ffbc39d1d 1-404
+yarn.lock
+  s_e807661ac67396::t_fdc83b77142e91 1-10166
+src/components/addPictures/AddPictures.jsx
+  s_e807661ac67396::t_e0e231461b115e 1-100
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_55d901cfacf698 1-789
+scripts/custom-credentials.js
+  s_e807661ac67396::t_713f0109aa9173 1-49
+server/package.json
+  s_e807661ac67396::t_22388cd15cb414 1-24
+python_server/run.py
+  s_e807661ac67396::t_abb197525ef8a4 1-22
+src/components/press/AddPress.jsx
+  s_e807661ac67396::t_601b2a9ef8b007 1-371
+src/components/main-section/Home.jsx
+  s_e807661ac67396::t_cbd4fdc5625242 1-70
+src/locales/en/en.json
+  s_e807661ac67396::t_823f0d8953d876 1-109
+src/components/nav-bar/NavBar.jsx
+  s_e807661ac67396::t_d06733ab246eaf 1-86
+src/components/slider/Slider.jsx
+  s_e807661ac67396::t_f20066a29b4b70 1-126
+server/server-cpanel.js
+  s_e807661ac67396::t_ac64d1b0fb8c1d 1-97
+public/index.html
+  s_e807661ac67396::t_0417e811dfceb1 1-121
+src/helper_functions/authService.js
+  s_e807661ac67396::t_855f8c3c2c4db2 1-68
+server/scripts/seed-press.js
+  s_e807661ac67396::t_52a5b6158a80f9 1-178
+src/App.test.js
+  s_e807661ac67396::t_42ef74bc12319b 1-8
+scripts/reset-credentials.js
+  s_e807661ac67396::t_ba5a859be90c25 1-127
+src/components/hooks/BrowseGallery.jsx
+  s_e807661ac67396::t_f412fc4e62257a 1-29
+python_server/app.py
+  s_e807661ac67396::t_51f7dec613c55e 1-281
+src/App.css
+  s_e807661ac67396::t_c2e7f26f43d4ec 1-42
+src/logo.svg
+  s_e807661ac67396::t_562a9d13304145 1
+SECURITY_FIX_GUIDE.md
+  s_e807661ac67396::t_ee047d571176c2 1-68
+server/middleware/auth.js
+  s_e807661ac67396::t_79056b74b08362 1-137
+.idea/vcs.xml
+  s_e807661ac67396::t_94bdb452908da3 1-6
+vercel-test.json
+  s_e807661ac67396::t_f3cc8ab43b67d3 1-15
+.idea/inspectionProfiles/Project_Default.xml
+  s_e807661ac67396::t_c99204ecc1f356 1-8
+api/prerender.js
+  s_e807661ac67396::t_6a434f1ac962d1 1-116
+src/components/biography/Biography.jsx
+  s_e807661ac67396::t_09dfd5c8b3483b 1-19
+scripts/generate-credentials.js
+  s_e807661ac67396::t_edec2a10cbc23c 1-52
+SECURITY_CHECKLIST.md
+  s_e807661ac67396::t_dfa0c34d14c33d 1-159
+server/scripts/upload-to-oracle.js
+  s_e807661ac67396::t_357aa6a24bebfa 1-115
+server/scripts/purge-deleted-from-oracle.js
+  s_e807661ac67396::t_4d545814c4c516 1-105
+server/api/auth.js
+  s_e807661ac67396::t_cd5b578dc87233 1-50
+server/vercel.json
+  s_e807661ac67396::t_4c62f8c26e542c 1-18
+YOUTUBE_TROUBLESHOOTING.md
+  s_e807661ac67396::t_dd217e47569b84 1-198
+public/manifest.json
+  s_e807661ac67396::t_9a681fc0bce6a4 1-25
+package.json
+  s_e807661ac67396::t_26dc0330a06a2f 1-73
+add-env-vars.sh
+  s_e807661ac67396::t_c8180394809a2d 1-15
+.idea/modules.xml
+  s_e807661ac67396::t_5578ffac1738b5 1-8
+src/helper_functions/auditLogger.js
+  s_e807661ac67396::t_b84b34c76e1461 1-156
+server/package-lock.json
+  s_e807661ac67396::t_c19045e565ad07 1-3063
+src/helper_functions/aws_helper_functions.js
+  s_e807661ac67396::t_0f7f39bd5e1a29 1-103
+src/components/hooks/PayPal.jsx
+  s_e807661ac67396::t_a5b668707d4a81 1-24
+server/server.js
+  s_e807661ac67396::t_1132b41ee4bdfd 1-71
+src/components/contact/Contact.jsx
+  s_e807661ac67396::t_64322b3c4c8b31 1-156
+SERVER_API_DEPLOYMENT.md
+  s_e807661ac67396::t_c307790966dfc5 1-194
+src/App.js
+  s_e807661ac67396::t_f3a79500b38665 1-45
+src/components/hooks/Button.jsx
+  s_e807661ac67396::t_8b40ad20dc3791 1-11
+src/components/admin/Admin.jsx
+  s_e807661ac67396::t_e6e23bc86758af 1-115
+src/components/exhibitions/AddExhibition.jsx
+  s_e807661ac67396::t_21dd96961dab83 1-284
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "da74ec4a31e7c6d8eb8e58d3a2afec79d3fac25a",
+  "prompts": {},
+  "sessions": {
+    "s_89a5595743e1bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-acompact-57c7e83faa3ec3fd",
+        "model": "unknown"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    },
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
