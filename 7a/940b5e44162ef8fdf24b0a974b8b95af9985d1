@@ -1,0 +1,179 @@
+.env.example
+  s_e807661ac67396::t_6f8b37f89983d8 1-21
+.gitignore
+  s_e807661ac67396::t_352cf862c3cbd0 1-55
+api/prerender.js
+  s_e807661ac67396::t_9191dcb93df0ad 1-116
+middleware.js
+  s_e807661ac67396::t_36586785ffa939 1-18
+package-lock.json
+  s_e807661ac67396::t_46d4510561df18 1-32013
+package.json
+  s_e807661ac67396::t_ce711899dc0ff5 1-73
+public/index.html
+  s_e807661ac67396::t_bb7275feb55b5a 1-121
+public/manifest.json
+  s_e807661ac67396::t_136e9a1269762e 1-25
+server/api/auth.js
+  s_e807661ac67396::t_2564184e6f4c24 1-50
+server/api/index.js
+  s_e807661ac67396::t_a9664725768cc7 1-84
+server/api/s3.js
+  s_e807661ac67396::t_c7b9020af093cd 1-283
+server/api/simple.js
+  s_e807661ac67396::t_b688152e383ffe 1-51
+server/api/test-simple.js
+  s_e807661ac67396::t_3cf7878d886f46 1-104
+server/api/test.js
+  s_e807661ac67396::t_82d049c5eef753 1-38
+server/lib/objectStorage.js
+  s_e807661ac67396::t_27fb9af62d8053 1-49
+server/middleware/auth.js
+  s_e807661ac67396::t_63cbb2908b9659 1-137
+server/package.json
+  s_e807661ac67396::t_3a207a1e775ef9 1-24
+server/routes/auth.js
+  s_e807661ac67396::t_91a79fcd8b0e93 1-11
+server/routes/exhibitions.js
+  s_e807661ac67396::t_2395135e00b6b2 1-221
+server/routes/press.js
+  s_e807661ac67396::t_f71cce6d7c996c 1-222
+server/routes/s3.js
+  s_e807661ac67396::t_c368afcbba57e4 1-354
+server/server.js
+  s_e807661ac67396::t_788afaac6fa460 1-71
+server/vercel.json
+  s_e807661ac67396::t_43d1f600981666 1-18
+src/App.css
+  s_e807661ac67396::t_09cdf31d83c0d2 1-42
+src/App.js
+  s_e807661ac67396::t_20b396d8f734c7 1-45
+src/App.test.js
+  s_e807661ac67396::t_f35bc0828b6e27 1-8
+src/components/addPictures/AddPictures.jsx
+  s_e807661ac67396::t_771eed98793fde 1-100
+src/components/addPictures/PaintingModal.jsx
+  s_e807661ac67396::t_2caac3bf2b1311 1-448
+src/components/admin/Admin.jsx
+  s_e807661ac67396::t_847094fc1e3674 1-115
+src/components/biography/Biography.jsx
+  s_e807661ac67396::t_a74a0eab0c2bc9 1-19
+src/components/contact/Contact.jsx
+  s_e807661ac67396::t_c1bc0ef010d733 1-156
+src/components/exhibitions/AddExhibition.jsx
+  s_e807661ac67396::t_649ac9c0c32749 1-284
+src/components/exhibitions/exhibitions.jsx
+  s_e807661ac67396::t_d03c95736f780b 1-127
+src/components/footer/Footer.jsx
+  s_e807661ac67396::t_c2d635c93bbaba 1-48
+src/components/gallery/Filter.jsx
+  s_e807661ac67396::t_49047ee0c466d2 1-74
+src/components/gallery/Gallery.jsx
+  s_e807661ac67396::t_0370fa5e3ddd5c 1-39
+src/components/hooks/AboutArt.jsx
+  s_e807661ac67396::t_d70c609510bfa3 1-86
+src/components/hooks/AboutArtist.jsx
+  s_e807661ac67396::t_0a87e651dbaba4 1-94
+src/components/hooks/BrowseGallery.jsx
+  s_e807661ac67396::t_7b84bdc4afbc6c 1-29
+src/components/hooks/Button.jsx
+  s_e807661ac67396::t_623156973aca67 1-11
+src/components/hooks/Handlers.jsx
+  s_e807661ac67396::t_fd0b70f1b862d6 1-25
+src/components/hooks/ImgGallery.jsx
+  s_e807661ac67396::t_a9d570f352a3ab 1-789
+src/components/hooks/Info.jsx
+  s_e807661ac67396::t_4d90ccb3e30178 1-23
+src/components/hooks/InfoMessage.jsx
+  s_e807661ac67396::t_0800cda794df43 1-53
+src/components/hooks/InfoMobile.jsx
+  s_e807661ac67396::t_7dc419fe0f43f0 1-17
+src/components/hooks/PayPal.jsx
+  s_e807661ac67396::t_4d4d2409fefa12 1-24
+src/components/hooks/ShowPopUp.jsx
+  s_e807661ac67396::t_9f64ced8ce06f5 1-173
+src/components/layout/Layout.jsx
+  s_e807661ac67396::t_2570ec4e19f2c8 1-17
+src/components/main-section/Home.jsx
+  s_e807661ac67396::t_b9c156355ca567 1-70
+src/components/nav-bar/NavBar.jsx
+  s_e807661ac67396::t_a359b77c556c76 1-86
+src/components/press/AddPress.jsx
+  s_e807661ac67396::t_5302f838e7be6d 1-371
+src/components/press/Press.jsx
+  s_e807661ac67396::t_9607f09805c622 1-218
+src/components/press/YouTube.jsx
+  s_e807661ac67396::t_0740dc7b6d5e41 1-24
+src/components/shareButtons/ShareButtons.jsx
+  s_e807661ac67396::t_af04cc950dea95 1-94
+src/components/slider/Slider.jsx
+  s_e807661ac67396::t_61afc6a904ef4c 1-126
+src/components/slider/SliderBar.jsx
+  s_e807661ac67396::t_ca3f148f304d89 1-31
+src/components/slider/Sliders.jsx
+  s_e807661ac67396::t_708f8c76b43b12 1-28
+src/helper_functions/auditLogger.js
+  s_e807661ac67396::t_a7bbade3de96c4 1-156
+src/helper_functions/authService.js
+  s_e807661ac67396::t_8980d26a36a621 1-68
+src/helper_functions/authServiceFallback.js
+  s_e807661ac67396::t_8f9ab8834e0173 1-35
+src/helper_functions/awsSecurityMonitor.js
+  s_e807661ac67396::t_4fc998593f7fa2 1-198
+src/helper_functions/aws_helper_functions.js
+  s_e807661ac67396::t_f4e7870d05b484 1-103
+src/helper_functions/rateLimiter.js
+  s_e807661ac67396::t_885ad6f8628bd9 1-86
+src/helper_functions/sessionManager.js
+  s_e807661ac67396::t_b112fb5a65501b 1-127
+src/i18n.js
+  s_e807661ac67396::t_bf73f502bacb98 1-41
+src/index.css
+  s_e807661ac67396::t_6a1b2671773901 1-85
+src/index.js
+  s_e807661ac67396::t_b5750cd2439ed7 1-24
+src/locales/en/en.json
+  s_e807661ac67396::t_cd96194c355a3d 1-109
+src/locales/sr/sr.json
+  s_e807661ac67396::t_ed19b13a873d6b 1-108
+src/logo.svg
+  s_e807661ac67396::t_51f7fb4649275b 1
+src/reportWebVitals.js
+  s_e807661ac67396::t_ecc22edd1f2497 1-21
+src/services/apiClient.js
+  s_e807661ac67396::t_76d3a88cad3e50 1-220
+src/services/i18next.js
+  s_e807661ac67396::t_a9d4d7d0913742 1-18
+src/services/languagesList.json
+  s_e807661ac67396::t_93e6958368ed81 1-730
+src/setupTests.js
+  s_e807661ac67396::t_55956e2b9836ef 1-5
+src/utils/PrivateRoutes.js
+  s_e807661ac67396::t_8bf7f1ee67e812 1-45
+tailwind.config.js
+  s_e807661ac67396::t_147d7578ade43a 1-9
+yarn.lock
+  s_e807661ac67396::t_c74b420b60872d 1-10166
+server/api/working.js
+  s_e807661ac67396::t_bcc86ac83ac94d 1-483
+vercel.json
+  s_e807661ac67396::t_fb0e8cb1265c57 1-13
+public/robots.txt
+  s_e807661ac67396::t_731afab2f7ce1f 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "7a940b5e44162ef8fdf24b0a974b8b95af9985d1",
+  "prompts": {},
+  "sessions": {
+    "s_e807661ac67396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c68735e8-b1c5-47ac-a8f3-06f3172075f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
