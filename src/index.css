@@ -1,0 +1,85 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+/* ------------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+p,
+h1,
+a,
+form,
+h2,
+ul,
+li {
+  font-family: "Montserrat", sans-serif;
+}
+
+span {
+  font-family: "Jost", sans-serif;
+}
+
+body {
+  width: 100%;
+}
+
+.slick-list,
+.slick-slider,
+.slick-track {
+  padding: 1.5rem 0;
+}
+
+.center .slick-center .project {
+  transform: scale(1.3);
+  z-index: 10000;
+  transition: all 400ms ease-in-out;
+  pointer-events: all;
+  opacity: 1;
+}
+
+.center .project {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@media (max-width: 990px) {
+  .center .slick-center .project {
+    transform: scale(1);
+  }
+
+  .center .project {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@keyframes header {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";

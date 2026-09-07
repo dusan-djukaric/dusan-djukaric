@@ -1,0 +1,55 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/server/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# security and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.json
+secrets.json
+
+# server environment files
+/server/.env
+/server/.env.local
+/server/.env.production
+/server/.env.cpanel
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# server logs and temp files
+/server/logs
+/server/temp
+/server/uploads
+/server/downloads
+/server/*.log
+
+# Claude Code
+.claude/
+
+# PM2 files
+/server/ecosystem.config.js
+/server/.pm2
+.vercel

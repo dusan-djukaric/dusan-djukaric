@@ -1,0 +1,10 @@
+{
+  "build": {
+    "env": {
+      "CI": "false"
+    }
+  },
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "https://dusan-djukaric-rho.vercel.app/sitemap.xml" }
+  ]
+}

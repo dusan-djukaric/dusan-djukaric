@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /adminDashboard
+
+Sitemap: https://www.dusandjukaric.com/sitemap.xml
