@@ -1,0 +1,16 @@
+src/locales/en/en.json
+  h_8296d5401e716b 32,39
+src/locales/sr/sr.json
+  h_8296d5401e716b 32,39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e4fefc58d3f292df114339ddaba656f77422b4b0",
+  "prompts": {},
+  "humans": {
+    "h_8296d5401e716b": {
+      "author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
