@@ -1,31 +1,36 @@
 const express = require('express');
-const AWS = require('aws-sdk');
-const multer = require('multer');
 const { authenticate } = require('../middleware/auth');
+const { s3, bucket, objectUrl } = require('../lib/objectStorage');
+const upload = require('../lib/upload');
 const router = express.Router();
 
-// Oracle Cloud client (S3-compatible)
-const oracleS3 = new AWS.S3({
-  endpoint: process.env.ORACLE_ENDPOINT,
-  s3ForcePathStyle: true,
-  accessKeyId: process.env.ORACLE_ACCESS_KEY_ID,
-  secretAccessKey: process.env.ORACLE_SECRET_ACCESS_KEY,
-  region: 'eu-frankfurt-1',
-});
-const oracleBucket = process.env.ORACLE_BUCKET_NAME;
-const allowedFileTypes = (process.env.ALLOWED_FILE_TYPES || 'jpg,jpeg,png,webp').split(',');
+// In-memory cache for listing responses — invalidated on any write operation
+const listingCache = new Map();
+const CACHE_TTL_MS = 60 * 1000;
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  fileFilter: (req, file, cb) => {
-    const extension = file.originalname.split('.').pop().toLowerCase();
-    if (allowedFileTypes.includes(extension)) {
-      cb(null, true);
-    } else {
-      cb(new Error(`Invalid file type. Allowed: ${allowedFileTypes.join(', ')}`));
-    }
+// Periodic sweep so stale entries don't accumulate when keys are never re-read
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of listingCache.entries()) {
+    if (now - entry.timestamp > CACHE_TTL_MS) listingCache.delete(key);
   }
-});
+}, CACHE_TTL_MS);
+
+const getCachedListing = (key) => {
+  const entry = listingCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    listingCache.delete(key);
+    return null;
+  }
+  return entry.data;
+};
+
+const setCachedListing = (key, data) => {
+  listingCache.set(key, { data, timestamp: Date.now() });
+};
+
+const invalidateListingCache = () => listingCache.clear();
 
 const sanitizeInput = (input) => {
   if (!input || typeof input !== 'string') return '';
@@ -47,7 +52,7 @@ const EXTENDED_FIELDS = [
 
 async function readSidecar(key) {
   try {
-    const obj = await oracleS3.getObject({ Bucket: oracleBucket, Key: sidecarKey(key) }).promise();
+    const obj = await s3.getObject({ Bucket: bucket, Key: sidecarKey(key) }).promise();
     return JSON.parse(obj.Body.toString('utf-8'));
   } catch (e) {
     return {};
@@ -55,8 +60,8 @@ async function readSidecar(key) {
 }
 
 async function writeSidecar(key, extendedData) {
-  await oracleS3.putObject({
-    Bucket: oracleBucket,
+  await s3.putObject({
+    Bucket: bucket,
     Key: sidecarKey(key),
     Body: JSON.stringify(extendedData),
     ContentType: 'application/json'
@@ -65,8 +70,22 @@ async function writeSidecar(key, extendedData) {
 
 async function deleteSidecar(key) {
   try {
-    await oracleS3.deleteObject({ Bucket: oracleBucket, Key: sidecarKey(key) }).promise();
+    await s3.deleteObject({ Bucket: bucket, Key: sidecarKey(key) }).promise();
   } catch (e) {}
+}
+
+function buildMetadata(headResponse, extended) {
+  return {
+    title: headResponse.Metadata.title || '',
+    titlesrb: headResponse.Metadata.titlesrb || '',
+    x_dim: headResponse.Metadata.x_dim || '',
+    y_dim: headResponse.Metadata.y_dim || '',
+    sold: headResponse.Metadata.sold || 'false',
+    reserved: headResponse.Metadata.reserved || 'false',
+    deleted: headResponse.Metadata.deleted || 'false',
+    uploadedat: headResponse.Metadata.uploadedat || '',
+    ...extended
+  };
 }
 
 // Fetch a single painting by timestamp ID (checks available + sold)
@@ -75,8 +94,8 @@ router.get('/painting/:id', async (req, res) => {
   if (!/^\d+(\.\d+)?$/.test(id)) return res.status(400).json({ error: 'Invalid ID' });
 
   for (const folder of ['available', 'sold']) {
-    const result = await oracleS3.listObjectsV2({
-      Bucket: oracleBucket,
+    const result = await s3.listObjectsV2({
+      Bucket: bucket,
       Prefix: `${folder}/${id}`,
       MaxKeys: 2
     }).promise();
@@ -84,25 +103,12 @@ router.get('/painting/:id', async (req, res) => {
     const imageObj = result.Contents?.find(obj => !obj.Key.endsWith('.json'));
     if (imageObj) {
       const [headResponse, extended] = await Promise.all([
-        oracleS3.headObject({ Bucket: oracleBucket, Key: imageObj.Key }).promise(),
+        s3.headObject({ Bucket: bucket, Key: imageObj.Key }).promise(),
         readSidecar(imageObj.Key)
       ]);
-      const metadata = {
-        title: headResponse.Metadata.title || '',
-        titlesrb: headResponse.Metadata.titlesrb || '',
-        x_dim: headResponse.Metadata.x_dim || '',
-        y_dim: headResponse.Metadata.y_dim || '',
-        sold: headResponse.Metadata.sold || 'false',
-        reserved: headResponse.Metadata.reserved || 'false',
-        deleted: headResponse.Metadata.deleted || 'false',
-        uploadedat: headResponse.Metadata.uploadedat || '',
-        ...extended
-      };
+      const metadata = buildMetadata(headResponse, extended);
       if (metadata.deleted === 'true') return res.status(404).json({ error: 'Painting not found' });
-      return res.json({
-        url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${imageObj.Key}`,
-        metadata
-      });
+      return res.json({ url: objectUrl(imageObj.Key), metadata });
     }
   }
   return res.status(404).json({ error: 'Painting not found' });
@@ -118,8 +124,12 @@ router.get('/images/:folder', async (req, res) => {
       return res.status(400).json({ error: 'Invalid folder' });
     }
 
-    const response = await oracleS3.listObjectsV2({
-      Bucket: oracleBucket,
+    const cacheKey = `${folder}:${continuationToken || ''}:${maxKeys}`;
+    const cached = getCachedListing(cacheKey);
+    if (cached) return res.json(cached);
+
+    const response = await s3.listObjectsV2({
+      Bucket: bucket,
       Prefix: `${folder}/`,
       MaxKeys: parseInt(maxKeys),
       ContinuationToken: continuationToken
@@ -131,26 +141,10 @@ router.get('/images/:folder', async (req, res) => {
     const imagePromises = imageObjects.map(async (object) => {
       try {
         const [headResponse, extended] = await Promise.all([
-          oracleS3.headObject({ Bucket: oracleBucket, Key: object.Key }).promise(),
+          s3.headObject({ Bucket: bucket, Key: object.Key }).promise(),
           readSidecar(object.Key)
         ]);
-
-        const metadata = {
-          title: headResponse.Metadata.title || '',
-          titlesrb: headResponse.Metadata.titlesrb || '',
-          x_dim: headResponse.Metadata.x_dim || '',
-          y_dim: headResponse.Metadata.y_dim || '',
-          sold: headResponse.Metadata.sold || 'false',
-          reserved: headResponse.Metadata.reserved || 'false',
-          deleted: headResponse.Metadata.deleted || 'false',
-          uploadedat: headResponse.Metadata.uploadedat || '',
-          ...extended
-        };
-
-        return {
-          url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${object.Key}`,
-          metadata
-        };
+        return { url: objectUrl(object.Key), metadata: buildMetadata(headResponse, extended) };
       } catch (error) {
         console.error(`Error fetching metadata for ${object.Key}:`, error);
         return null;
@@ -159,11 +153,14 @@ router.get('/images/:folder', async (req, res) => {
 
     const images = (await Promise.all(imagePromises)).filter(img => img && img.metadata?.deleted !== 'true');
 
-    res.json({
+    const result = {
       images,
       continuationToken: response.NextContinuationToken,
       hasMore: !!response.NextContinuationToken
-    });
+    };
+
+    setCachedListing(cacheKey, result);
+    res.json(result);
 
   } catch (error) {
     console.error('Error fetching images:', error);
@@ -174,7 +171,7 @@ router.get('/images/:folder', async (req, res) => {
 // Upload image
 router.post('/upload', authenticate, upload.single('image'), async (req, res) => {
   try {
-    const { title, naslovSlike, dimX, dimY, description, descriptionsrb, seotitle, metadescription, alttext, keywords, seotitlesrb, metadescriptionsrb, alttextsrb, keywordssrb, slug } = req.body;
+    const { title, naslovSlike, dimX, dimY } = req.body;
     const file = req.file;
 
     if (!file) {
@@ -201,8 +198,8 @@ router.post('/upload', authenticate, upload.single('image'), async (req, res) =>
     const key = `available/${reverse_timestamp}${random_suffix}.${extension}`;
 
     // Upload image with only short metadata fields
-    await oracleS3.putObject({
-      Bucket: oracleBucket,
+    await s3.putObject({
+      Bucket: bucket,
       Key: key,
       Body: file.buffer,
       ContentType: file.mimetype,
@@ -219,25 +216,10 @@ router.post('/upload', authenticate, upload.single('image'), async (req, res) =>
     }).promise();
 
     // Store extended fields in sidecar JSON file
-    await writeSidecar(key, {
-      description: description || '',
-      descriptionsrb: descriptionsrb || '',
-      seotitle: seotitle || '',
-      seotitlesrb: seotitlesrb || '',
-      metadescription: metadescription || '',
-      metadescriptionsrb: metadescriptionsrb || '',
-      alttext: alttext || '',
-      alttextsrb: alttextsrb || '',
-      keywords: keywords || '',
-      keywordssrb: keywordssrb || '',
-      slug: slug || ''
-    });
+    await writeSidecar(key, Object.fromEntries(EXTENDED_FIELDS.map(f => [f, req.body[f] || ''])));
 
-    res.json({
-      success: true,
-      url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`,
-      key
-    });
+    invalidateListingCache();
+    res.json({ success: true, url: objectUrl(key), key });
 
   } catch (error) {
     console.error('Upload error:', error);
@@ -254,11 +236,11 @@ async function handleMetadataUpdate(req, res) {
       return res.status(400).json({ error: 'Missing key or metadata' });
     }
 
-    const { Body, ContentType } = await oracleS3.getObject({ Bucket: oracleBucket, Key: key }).promise();
+    const { Body, ContentType } = await s3.getObject({ Bucket: bucket, Key: key }).promise();
 
     // Short fields in S3 metadata headers (within 2KB limit)
-    await oracleS3.putObject({
-      Bucket: oracleBucket,
+    await s3.putObject({
+      Bucket: bucket,
       Key: key,
       Body,
       ContentType,
@@ -275,12 +257,9 @@ async function handleMetadataUpdate(req, res) {
     }).promise();
 
     // Extended fields in sidecar JSON file
-    const extended = {};
-    for (const field of EXTENDED_FIELDS) {
-      extended[field] = metadata[field] || '';
-    }
-    await writeSidecar(key, extended);
+    await writeSidecar(key, Object.fromEntries(EXTENDED_FIELDS.map(f => [f, metadata[f] || ''])));
 
+    invalidateListingCache();
     res.json({ success: true });
 
   } catch (error) {
@@ -309,20 +288,21 @@ router.post('/move', authenticate, async (req, res) => {
     const newKey = `${toFolder}/${keyWithoutFolder}`;
 
     const [{ Body, ContentType, Metadata }, extended] = await Promise.all([
-      oracleS3.getObject({ Bucket: oracleBucket, Key: key }).promise(),
+      s3.getObject({ Bucket: bucket, Key: key }).promise(),
       readSidecar(key)
     ]);
 
     const hasSidecar = Object.keys(extended).length > 0;
     await Promise.all([
-      oracleS3.putObject({ Bucket: oracleBucket, Key: newKey, Body, ContentType, Metadata }).promise(),
+      s3.putObject({ Bucket: bucket, Key: newKey, Body, ContentType, Metadata }).promise(),
       hasSidecar ? writeSidecar(newKey, extended) : Promise.resolve()
     ]);
     await Promise.all([
-      oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise(),
+      s3.deleteObject({ Bucket: bucket, Key: key }).promise(),
       hasSidecar ? deleteSidecar(key) : Promise.resolve()
     ]);
 
+    invalidateListingCache();
     res.json({ success: true, newKey });
 
   } catch (error) {
@@ -341,10 +321,11 @@ async function handleDelete(req, res) {
     }
 
     await Promise.all([
-      oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise(),
+      s3.deleteObject({ Bucket: bucket, Key: key }).promise(),
       deleteSidecar(key)
     ]);
 
+    invalidateListingCache();
     res.json({ success: true });
 
   } catch (error) {

@@ -1,32 +1,14 @@
 const express = require('express');
-const AWS = require('aws-sdk');
-const multer = require('multer');
 const { authenticate } = require('../middleware/auth');
+const { s3, bucket, objectUrl } = require('../lib/objectStorage');
+const upload = require('../lib/upload');
 const router = express.Router();
 
-const oracleS3 = new AWS.S3({
-  endpoint: process.env.ORACLE_ENDPOINT,
-  s3ForcePathStyle: true,
-  accessKeyId: process.env.ORACLE_ACCESS_KEY_ID,
-  secretAccessKey: process.env.ORACLE_SECRET_ACCESS_KEY,
-  region: 'eu-frankfurt-1',
-});
-const oracleBucket = process.env.ORACLE_BUCKET_NAME;
 const DATA_KEY = 'exhibitions/data.json';
 
-const allowedFileTypes = (process.env.ALLOWED_FILE_TYPES || 'jpg,jpeg,png,webp').split(',');
-const upload = multer({
-  storage: multer.memoryStorage(),
-  fileFilter: (req, file, cb) => {
-    const ext = file.originalname.split('.').pop().toLowerCase();
-    allowedFileTypes.includes(ext) ? cb(null, true) : cb(new Error(`Invalid file type. Allowed: ${allowedFileTypes.join(', ')}`));
-  }
-});
-
-// Read the exhibitions JSON from Oracle, return [] if not found yet
 async function readExhibitions() {
   try {
-    const result = await oracleS3.getObject({ Bucket: oracleBucket, Key: DATA_KEY }).promise();
+    const result = await s3.getObject({ Bucket: bucket, Key: DATA_KEY }).promise();
     return JSON.parse(result.Body.toString('utf-8'));
   } catch (err) {
     if (err.code === 'NoSuchKey') return [];
@@ -34,10 +16,9 @@ async function readExhibitions() {
   }
 }
 
-// Write the exhibitions array back to Oracle as JSON
 async function writeExhibitions(exhibitions) {
-  await oracleS3.putObject({
-    Bucket: oracleBucket,
+  await s3.putObject({
+    Bucket: bucket,
     Key: DATA_KEY,
     Body: JSON.stringify(exhibitions),
     ContentType: 'application/json',
@@ -98,14 +79,14 @@ router.post('/', authenticate, upload.single('image'), async (req, res) => {
     if (req.file) {
       const ext = req.file.originalname.split('.').pop().toLowerCase();
       const key = `exhibitions/images/${Date.now()}.${ext}`;
-      await oracleS3.putObject({
-        Bucket: oracleBucket,
+      await s3.putObject({
+        Bucket: bucket,
         Key: key,
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
       }).promise();
       imageKey = key;
-      imageUrl = `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`;
+      imageUrl = objectUrl(key);
     }
 
     const exhibition = {
@@ -153,18 +134,18 @@ router.put('/:id', authenticate, upload.single('image'), async (req, res) => {
     if (req.file) {
       // Delete old image if it exists
       if (imageKey) {
-        await oracleS3.deleteObject({ Bucket: oracleBucket, Key: imageKey }).promise().catch(() => {});
+        await s3.deleteObject({ Bucket: bucket, Key: imageKey }).promise().catch(() => {});
       }
       const ext = req.file.originalname.split('.').pop().toLowerCase();
       const key = `exhibitions/images/${Date.now()}.${ext}`;
-      await oracleS3.putObject({
-        Bucket: oracleBucket,
+      await s3.putObject({
+        Bucket: bucket,
         Key: key,
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
       }).promise();
       imageKey = key;
-      imageUrl = `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`;
+      imageUrl = objectUrl(key);
     }
 
     exhibitions[index] = {
@@ -208,7 +189,7 @@ router.delete('/:id', authenticate, async (req, res) => {
     await writeExhibitions(exhibitions);
 
     if (imageKey) {
-      await oracleS3.deleteObject({ Bucket: oracleBucket, Key: imageKey }).promise().catch(() => {});
+      await s3.deleteObject({ Bucket: bucket, Key: imageKey }).promise().catch(() => {});
     }
 
     res.json({ success: true });

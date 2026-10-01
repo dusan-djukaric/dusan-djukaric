@@ -13,12 +13,13 @@ function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// Extract the numeric timestamp from a painting URL segment.
-// Handles "8212509425840" (pure timestamp) and "venice-8212509425840" (slug-timestamp).
+// Extract the full file ID from a painting URL segment.
+// Handles: "8212509425840" (timestamp), "8212509425840.506" (timestamp.suffix),
+// "venice-8212509425840" and "venice-8212509425840.506" (slug-prefixed variants).
 function extractTimestampId(paintingId) {
   if (!paintingId) return null;
-  if (/^\d+$/.test(paintingId)) return paintingId;
-  const match = paintingId.match(/^.+-(\d{10,})$/);
+  if (/^\d+(\.\d+)?$/.test(paintingId)) return paintingId;
+  const match = paintingId.match(/^.+-(\d{10,}(?:\.\d+)?)$/);
   return match ? match[1] : null;
 }
 
@@ -46,9 +47,9 @@ module.exports = async (req, res) => {
         if (apiRes.ok) {
           const painting = await apiRes.json();
           const meta = painting.metadata || {};
-          const title = meta.title || 'Painting by Dusan Djukaric';
-          const description = meta.description || meta.seotitle || 'Watercolor painting by Dusan Djukaric';
-          const ogImageUrl = `${BACKEND_URL}/og-image/${timestampId}`;
+          const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
+          const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
+          const ogImageUrl = painting.url;
 
           const html = `<!DOCTYPE html>
 <html lang="en">
@@ -63,8 +64,6 @@ module.exports = async (req, res) => {
   <meta property="og:title"       content="${escapeHtml(title)} — Dusan Djukaric" />
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:image"       content="${escapeHtml(ogImageUrl)}" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
 
   <!-- Twitter / X card -->
   <meta name="twitter:card"        content="summary_large_image" />

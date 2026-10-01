@@ -1,31 +1,14 @@
 const express = require('express');
-const AWS = require('aws-sdk');
-const multer = require('multer');
 const { authenticate } = require('../middleware/auth');
+const { s3, bucket, objectUrl } = require('../lib/objectStorage');
+const upload = require('../lib/upload');
 const router = express.Router();
 
-const oracleS3 = new AWS.S3({
-  endpoint: process.env.ORACLE_ENDPOINT,
-  s3ForcePathStyle: true,
-  accessKeyId: process.env.ORACLE_ACCESS_KEY_ID,
-  secretAccessKey: process.env.ORACLE_SECRET_ACCESS_KEY,
-  region: 'eu-frankfurt-1',
-});
-const oracleBucket = process.env.ORACLE_BUCKET_NAME;
 const DATA_KEY = 'press/data.json';
-
-const allowedFileTypes = (process.env.ALLOWED_FILE_TYPES || 'jpg,jpeg,png,webp').split(',');
-const upload = multer({
-  storage: multer.memoryStorage(),
-  fileFilter: (req, file, cb) => {
-    const ext = file.originalname.split('.').pop().toLowerCase();
-    allowedFileTypes.includes(ext) ? cb(null, true) : cb(new Error(`Invalid file type`));
-  }
-});
 
 async function readData() {
   try {
-    const result = await oracleS3.getObject({ Bucket: oracleBucket, Key: DATA_KEY }).promise();
+    const result = await s3.getObject({ Bucket: bucket, Key: DATA_KEY }).promise();
     return JSON.parse(result.Body.toString('utf-8'));
   } catch (err) {
     if (err.code === 'NoSuchKey') return { articles: [], moreArticles: { images: [], imageKeys: [] }, videoIds: [] };
@@ -34,8 +17,8 @@ async function readData() {
 }
 
 async function writeData(data) {
-  await oracleS3.putObject({
-    Bucket: oracleBucket,
+  await s3.putObject({
+    Bucket: bucket,
     Key: DATA_KEY,
     Body: JSON.stringify(data),
     ContentType: 'application/json',
@@ -91,12 +74,12 @@ router.post('/', authenticate, upload.array('images', 20), async (req, res) => {
     const uploadResults = await Promise.all((req.files || []).map(file => {
       const ext = file.originalname.split('.').pop().toLowerCase();
       const key = `press/images/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      return oracleS3.putObject({
-        Bucket: oracleBucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
+      return s3.putObject({
+        Bucket: bucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
       }).promise().then(() => key);
     }));
     const imageKeys = uploadResults;
-    const images = uploadResults.map(key => `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`);
+    const images = uploadResults.map(key => objectUrl(key));
 
     const article = {
       id: Date.now().toString(),
@@ -134,12 +117,12 @@ router.put('/:id', authenticate, upload.array('images', 20), async (req, res) =>
     const newKeys = await Promise.all((req.files || []).map(file => {
       const ext = file.originalname.split('.').pop().toLowerCase();
       const key = `press/images/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      return oracleS3.putObject({
-        Bucket: oracleBucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
+      return s3.putObject({
+        Bucket: bucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
       }).promise().then(() => key);
     }));
     article.imageKeys.push(...newKeys);
-    article.images.push(...newKeys.map(key => `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`));
+    article.images.push(...newKeys.map(key => objectUrl(key)));
 
     data.articles[index] = {
       ...article,
@@ -172,7 +155,7 @@ router.delete('/:id/images/:imageIndex', authenticate, async (req, res) => {
     article.images.splice(idx, 1);
     article.imageKeys.splice(idx, 1);
     await writeData(data);
-    if (key) await oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise().catch(() => {});
+    if (key) await s3.deleteObject({ Bucket: bucket, Key: key }).promise().catch(() => {});
     res.json({ success: true });
   } catch (err) {
     console.error('Error deleting image:', err);
@@ -207,7 +190,7 @@ router.delete('/:id', authenticate, async (req, res) => {
     data.articles.splice(index, 1);
     await writeData(data);
     for (const key of imageKeys) {
-      await oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise().catch(() => {});
+      await s3.deleteObject({ Bucket: bucket, Key: key }).promise().catch(() => {});
     }
     res.json({ success: true });
   } catch (err) {
