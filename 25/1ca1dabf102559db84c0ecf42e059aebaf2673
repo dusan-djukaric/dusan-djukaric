@@ -1,0 +1,22 @@
+server/routes/s3.js
+  s_c0a3533d89fd6e::t_65c47e5984b4cb 199,201
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_7cfa1076286a99 356-358,362-365
+  s_c0a3533d89fd6e::t_e75a6a0ad2d126 30,39-52,56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "251ca1dabf102559db84c0ecf42e059aebaf2673",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
