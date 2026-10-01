@@ -61,7 +61,14 @@ const findPaintingByUrlId = (paintingId, allImages) => {
   return undefined;
 };
 
-// Pure utility functions — defined outside to avoid recreation on every render
+const toImageEntry = (img) => ({
+  url: img.url || `https://ddjpictures.s3.amazonaws.com/${img.Key}`,
+  key: img.Key,
+  lastModified: img.LastModified,
+  size: img.Size,
+  metadata: img.metadata || {}
+});
+
 const sortByUploadTime = (images) => {
   const getTime = (img) => {
     const uploadedAt = img.metadata?.uploadedAt || img.metadata?.uploadedat;
@@ -108,7 +115,6 @@ function ImgGallery({
   const [stillSearching, setStillSearching] = useState(false);
 
   // Image Data State
-  const [imagesView, setImagesView] = useState([]);
   const [availablePictures, setAvailablePictures] = useState([]);
   const [soldPictures, setSoldPictures] = useState([]);
   const [allAvailablePicturesLoaded, setAllAvailablePicturesLoaded] = useState(false);
@@ -160,13 +166,7 @@ function ImgGallery({
       const response = await apiClient.getImages(filter, continuationToken);
 
       if (response && response.images) {
-        const newImages = response.images.map(img => ({
-          url: img.url || `https://ddjpictures.s3.amazonaws.com/${img.Key}`,
-          key: img.Key,
-          lastModified: img.LastModified,
-          size: img.Size,
-          metadata: img.metadata || {}
-        }));
+        const newImages = response.images.map(toImageEntry);
 
         if (filter === "available") {
           setAvailablePictures(prev => sortByUploadTime([...prev, ...newImages]));
@@ -193,13 +193,7 @@ function ImgGallery({
       // Fetch available images
       const availableResponse = await apiClient.getImages("available", null, 25, fromBeginning);
       if (availableResponse && availableResponse.images) {
-        const availableImages = availableResponse.images.map(img => ({
-          url: img.url || `https://ddjpictures.s3.amazonaws.com/${img.Key}`,
-          key: img.Key,
-          lastModified: img.LastModified,
-          size: img.Size,
-          metadata: img.metadata || {}
-        }));
+        const availableImages = availableResponse.images.map(toImageEntry);
         
         const sortedAvailableImages = sortByUploadTime(availableImages);
         
@@ -211,13 +205,7 @@ function ImgGallery({
       // Fetch sold images
       const soldResponse = await apiClient.getImages("sold", null, 25, fromBeginning);
       if (soldResponse && soldResponse.images) {
-        const soldImages = soldResponse.images.map(img => ({
-          url: img.url || `https://ddjpictures.s3.amazonaws.com/${img.Key}`,
-          key: img.Key,
-          lastModified: img.LastModified,
-          size: img.Size,
-          metadata: img.metadata || {}
-        }));
+        const soldImages = soldResponse.images.map(toImageEntry);
 
         const sortedSoldImages = sortByUploadTime(soldImages);
 
@@ -243,15 +231,10 @@ function ImgGallery({
     }
   }, [showPopup, sawPopup]); // intentionally excludes loadMorePictures — use the ref instead
 
-  // Handle filter changes - update imagesView based on current filter
-  // availablePictures/soldPictures are already sorted when stored, no re-sort needed
-  useEffect(() => {
-    if (filter === "available") {
-      setImagesView(availablePictures);
-    } else if (filter === "sold") {
-      setImagesView(soldPictures);
-    }
-  }, [filter, availablePictures, soldPictures]);
+  const imagesView = useMemo(
+    () => filter === "available" ? availablePictures : soldPictures,
+    [filter, availablePictures, soldPictures]
+  );
 
   // Infinite scroll: trigger loadMorePictures when sentinel enters the viewport
   useEffect(() => {
@@ -295,13 +278,16 @@ function ImgGallery({
     });
   }, [imagesView, searchTerm]);
 
-  // Handle search state
+  // Handle search state + auto-load while searching
   useEffect(() => {
-    const isSearching = (!allAvailablePicturesLoaded || !allSoldPicturesLoaded) &&
-      filteredImages?.length === 0 &&
-      searchTerm !== "";
+    const moreToLoad = filter === "available" ? !allAvailablePicturesLoaded : !allSoldPicturesLoaded;
+    const isSearching = moreToLoad && filteredImages?.length === 0 && searchTerm !== "";
     setStillSearching(isSearching);
-  }, [searchTerm, allAvailablePicturesLoaded, allSoldPicturesLoaded, filteredImages]);
+
+    if (isSearching) {
+      loadMorePicturesRef.current?.();
+    }
+  }, [filter, searchTerm, allAvailablePicturesLoaded, allSoldPicturesLoaded, filteredImages]);
 
   useEffect(() => {
     if (addedNewPicture) {
@@ -615,8 +601,6 @@ function ImgGallery({
         className="my-auto m-1 rounded px-2 text-[20px] xl:text-[23px] hover:shadow-md hover:bg-neutral-50 transition-all duration-300 ease-in"
         onClick={() => handleSendRequest(url, metadata["title"])}
       >
-        {/* SEND REQUEST */}
-        {/*<ion-icon name="mail-outline"></ion-icon>*/}
         <IoMailOutline />
       </span>
     );

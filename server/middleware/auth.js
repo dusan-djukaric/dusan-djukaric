@@ -1,7 +1,14 @@
 const bcrypt = require('bcryptjs');
 
-// Simple in-memory session store (use Redis in production)
 const sessions = new Map();
+
+// Periodically clean up expired sessions instead of on every login
+setInterval(() => {
+  const now = Date.now();
+  for (const [token, session] of sessions.entries()) {
+    if (session.expires < now) sessions.delete(token);
+  }
+}, 5 * 60 * 1000);
 
 // Admin credentials (should be in database in production)
 const ADMIN_USERNAME_HASH = process.env.ADMIN_USERNAME_HASH || '$2a$10$tOqiz85FFnnkyui8Z2TUUeQzePnGjF1aYivKmUTiZs1uj02kHnf3m';
@@ -101,13 +108,6 @@ const login = async (req, res) => {
       user: { username },
       expires
     });
-    
-    // Clean up expired sessions
-    for (const [token, session] of sessions.entries()) {
-      if (session.expires < Date.now()) {
-        sessions.delete(token);
-      }
-    }
     
     res.json({ 
       success: true, 

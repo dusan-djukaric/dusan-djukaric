@@ -308,16 +308,20 @@ router.post('/move', authenticate, async (req, res) => {
     const keyWithoutFolder = key.split('/').slice(1).join('/');
     const newKey = `${toFolder}/${keyWithoutFolder}`;
 
-    const { Body, ContentType, Metadata } = await oracleS3.getObject({ Bucket: oracleBucket, Key: key }).promise();
-    await oracleS3.putObject({ Bucket: oracleBucket, Key: newKey, Body, ContentType, Metadata }).promise();
-    await oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise();
+    const [{ Body, ContentType, Metadata }, extended] = await Promise.all([
+      oracleS3.getObject({ Bucket: oracleBucket, Key: key }).promise(),
+      readSidecar(key)
+    ]);
 
-    // Move sidecar if it exists
-    const extended = await readSidecar(key);
-    if (Object.keys(extended).length > 0) {
-      await writeSidecar(newKey, extended);
-      await deleteSidecar(key);
-    }
+    const hasSidecar = Object.keys(extended).length > 0;
+    await Promise.all([
+      oracleS3.putObject({ Bucket: oracleBucket, Key: newKey, Body, ContentType, Metadata }).promise(),
+      hasSidecar ? writeSidecar(newKey, extended) : Promise.resolve()
+    ]);
+    await Promise.all([
+      oracleS3.deleteObject({ Bucket: oracleBucket, Key: key }).promise(),
+      hasSidecar ? deleteSidecar(key) : Promise.resolve()
+    ]);
 
     res.json({ success: true, newKey });
 

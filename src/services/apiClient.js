@@ -150,12 +150,6 @@ class ApiClient {
     });
   }
 
-  async fetchImages(folder) {
-    return this.request(`/s3/images/${folder}`, {
-      method: 'GET'
-    });
-  }
-
   // Exhibition methods
   async getExhibitions(includeHidden = false) {
     return this.request(includeHidden ? '/exhibitions/all' : '/exhibitions');

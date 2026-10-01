@@ -88,18 +88,15 @@ router.post('/', authenticate, upload.array('images', 20), async (req, res) => {
     const { titleEn, titleSr, textEn, textSr } = req.body;
     if (!titleEn) return res.status(400).json({ error: 'titleEn is required' });
 
-    const images = [];
-    const imageKeys = [];
-
-    for (const file of req.files || []) {
+    const uploadResults = await Promise.all((req.files || []).map(file => {
       const ext = file.originalname.split('.').pop().toLowerCase();
       const key = `press/images/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      await oracleS3.putObject({
+      return oracleS3.putObject({
         Bucket: oracleBucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
-      }).promise();
-      imageKeys.push(key);
-      images.push(`${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`);
-    }
+      }).promise().then(() => key);
+    }));
+    const imageKeys = uploadResults;
+    const images = uploadResults.map(key => `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`);
 
     const article = {
       id: Date.now().toString(),
@@ -134,15 +131,15 @@ router.put('/:id', authenticate, upload.array('images', 20), async (req, res) =>
     const article = data.articles[index];
 
     // Upload any new images and append them
-    for (const file of req.files || []) {
+    const newKeys = await Promise.all((req.files || []).map(file => {
       const ext = file.originalname.split('.').pop().toLowerCase();
       const key = `press/images/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      await oracleS3.putObject({
+      return oracleS3.putObject({
         Bucket: oracleBucket, Key: key, Body: file.buffer, ContentType: file.mimetype,
-      }).promise();
-      article.imageKeys.push(key);
-      article.images.push(`${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`);
-    }
+      }).promise().then(() => key);
+    }));
+    article.imageKeys.push(...newKeys);
+    article.images.push(...newKeys.map(key => `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${key}`));
 
     data.articles[index] = {
       ...article,
