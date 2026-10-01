@@ -1,0 +1,33 @@
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_9cb74794c74e65 208
+  s_c0a3533d89fd6e::t_3d8ce1a47e68c4 234-237
+  s_c0a3533d89fd6e::t_584ab38c0701ac 169
+  s_c0a3533d89fd6e::t_58e64f0ab7f456 281,284,286-289
+  s_c0a3533d89fd6e::t_93aaf0e1c1f266 283,290
+  s_c0a3533d89fd6e::t_809c965579c03a 64-71
+  s_c0a3533d89fd6e::t_7cd8b9c8bff527 196
+server/routes/s3.js
+  s_c0a3533d89fd6e::t_0c060119538dbb 311-324
+server/routes/press.js
+  s_c0a3533d89fd6e::t_f5de21948b2f30 91,94,96-99
+  s_c0a3533d89fd6e::t_338965b2565f4d 134,137,139-142
+server/middleware/auth.js
+  s_c0a3533d89fd6e::t_cab9ebbc9ae350 5-11
+  s_c0a3533d89fd6e::t_8604794d4db132 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0181c89969047a1cd13be14ea53f64c7956db995",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
