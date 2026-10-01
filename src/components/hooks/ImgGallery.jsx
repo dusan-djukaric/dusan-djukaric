@@ -23,23 +23,28 @@ const isTVBrowser = /Tizen|webOS|Web0S|SmartTV|SMART-TV|HbbTV|NetCast|NETTV|CrKe
 const generateSlug = (title) =>
   (title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+// Extract the full unique file ID from an Oracle URL (filename without final extension)
+// e.g. ".../available/8307125870236.506.jpeg" → "8307125870236.506"
+//      ".../available/8302860935739.jpeg"     → "8302860935739"
+const getFileId = (url) => url.split('/').pop().replace(/\.[^.]+$/, '');
+
 const getPaintingUrlId = (url, metadata) => {
-  const timestampId = url.split('/').pop().split('.')[0];
+  const fileId = getFileId(url);
   const baseSlug = metadata.slug || generateSlug(metadata.title);
-  if (!baseSlug) return timestampId;
-  return baseSlug;
+  if (!baseSlug) return fileId;
+  return `${baseSlug}-${fileId}`;
 };
 
 const findPaintingByUrlId = (paintingId, allImages) => {
-  // Pure timestamp ID (old-style links)
-  if (/^\d+$/.test(paintingId)) {
-    return allImages.find(img => img.url.split('/').pop().split('.')[0] === paintingId);
+  // Pure file ID (digits, optionally with .suffix) — e.g. "8307125870236.506"
+  if (/^\d+(\.\d+)?$/.test(paintingId)) {
+    return allImages.find(img => getFileId(img.url) === paintingId);
   }
 
-  // slug-TIMESTAMP format (e.g. "venice-8212509425840") — extract slug hint and timestamp
-  const timestampSuffixMatch = paintingId.match(/^(.+)-(\d{10,})$/);
+  // slug-FILEID format — e.g. "venice-8307125870236.506" or "venice-8302860935739"
+  const timestampSuffixMatch = paintingId.match(/^(.+)-(\d{10,}(?:\.\d+)?)$/);
   const slugHint = timestampSuffixMatch ? timestampSuffixMatch[1] : paintingId;
-  const tsId = timestampSuffixMatch ? timestampSuffixMatch[2] : null;
+  const fileId = timestampSuffixMatch ? timestampSuffixMatch[2] : null;
 
   // 1. Try exact slug match first
   const bySlug = allImages.find(img => {
@@ -48,9 +53,9 @@ const findPaintingByUrlId = (paintingId, allImages) => {
   });
   if (bySlug) return bySlug;
 
-  // 2. If slug not found and we have a timestamp, fall back to timestamp
-  if (tsId) {
-    return allImages.find(img => img.url.split('/').pop().split('.')[0] === tsId);
+  // 2. Fall back to full file ID match
+  if (fileId) {
+    return allImages.find(img => getFileId(img.url) === fileId);
   }
 
   return undefined;
@@ -337,32 +342,43 @@ function ImgGallery({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changedMetadata]); // intentional: effect reads fresh state values after changedMetadata toggle
 
-  // Auto-open popup when visiting /gallery/:paintingId directly
+  // Auto-open popup when visiting /gallery/:paintingId directly.
+  // Also runs as gallery pages load — if slug search finds a more specific match
+  // than the direct API fetch (e.g. duplicate timestamp case), silently corrects it.
   useEffect(() => {
-    if (!paintingId || autoOpenedRef.current) return;
+    if (!paintingId) return;
     const allImages = [...availablePictures, ...soldPictures];
     if (allImages.length === 0) return;
 
     const match = findPaintingByUrlId(paintingId, allImages);
     if (match) {
-      autoOpenedRef.current = true;
-      setCurrentImage({ img: match.url, metadata: match.metadata });
-      setShowPopup(true);
-      document.body.style.overflow = "hidden";
+      if (!autoOpenedRef.current) {
+        autoOpenedRef.current = true;
+        setCurrentImage({ img: match.url, metadata: match.metadata });
+        setShowPopup(true);
+        document.body.style.overflow = "hidden";
+      } else {
+        // Popup already open via direct fetch — override if slug found a different painting
+        setCurrentImage(prev => {
+          if (prev && prev.img !== match.url) {
+            return { img: match.url, metadata: match.metadata };
+          }
+          return prev;
+        });
+      }
+    } else if (!allAvailablePicturesLoaded || !allSoldPicturesLoaded) {
+      loadMorePicturesRef.current?.();
     }
-  }, [availablePictures, soldPictures, paintingId]);
+  }, [availablePictures, soldPictures, paintingId, allAvailablePicturesLoaded, allSoldPicturesLoaded]);
 
   // Fetch painting directly on mount when URL contains a paintingId —
   // runs in parallel with gallery loading so deep paintings open immediately.
-  // Only used for pure timestamp IDs — slug-based URLs are handled by findPaintingByUrlId
-  // to ensure the correct painting is shown when multiple share the same timestamp.
   useEffect(() => {
     if (!paintingId || isAdmin) return;
 
-    // If the URL has a slug component, skip direct fetch — let slug search handle it
-    if (!/^\d+$/.test(paintingId)) return;
-
-    const timestampId = paintingId;
+    const timestampMatch = paintingId.match(/^.+-(\d{10,}(?:\.\d+)?)$/);
+    const timestampId = timestampMatch ? timestampMatch[1] : (/^\d+(\.\d+)?$/.test(paintingId) ? paintingId : null);
+    if (!timestampId) return;
 
     apiClient.getPaintingById(timestampId)
       .then(painting => {

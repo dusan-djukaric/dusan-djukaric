@@ -72,7 +72,7 @@ async function deleteSidecar(key) {
 // Fetch a single painting by timestamp ID (checks available + sold)
 router.get('/painting/:id', async (req, res) => {
   const { id } = req.params;
-  if (!/^\d+$/.test(id)) return res.status(400).json({ error: 'Invalid ID' });
+  if (!/^\d+(\.\d+)?$/.test(id)) return res.status(400).json({ error: 'Invalid ID' });
 
   for (const folder of ['available', 'sold']) {
     const result = await oracleS3.listObjectsV2({
