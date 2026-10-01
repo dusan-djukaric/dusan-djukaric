@@ -196,8 +196,9 @@ router.post('/upload', authenticate, upload.single('image'), async (req, res) =>
 
     const MAX_TIMESTAMP = 9999999999999;
     const reverse_timestamp = MAX_TIMESTAMP - Date.now();
+    const random_suffix = Math.floor(1000 + Math.random() * 9000);
     const extension = file.originalname.split('.').pop().toLowerCase();
-    const key = `available/${reverse_timestamp}.${extension}`;
+    const key = `available/${reverse_timestamp}${random_suffix}.${extension}`;
 
     // Upload image with only short metadata fields
     await oracleS3.putObject({

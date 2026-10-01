@@ -27,7 +27,7 @@ const getPaintingUrlId = (url, metadata) => {
   const timestampId = url.split('/').pop().split('.')[0];
   const baseSlug = metadata.slug || generateSlug(metadata.title);
   if (!baseSlug) return timestampId;
-  return `${baseSlug}-${timestampId}`;
+  return baseSlug;
 };
 
 const findPaintingByUrlId = (paintingId, allImages) => {
@@ -36,17 +36,24 @@ const findPaintingByUrlId = (paintingId, allImages) => {
     return allImages.find(img => img.url.split('/').pop().split('.')[0] === paintingId);
   }
 
-  // slug-TIMESTAMP format (e.g. "venice-8212509425840")
-  const timestampSuffixMatch = paintingId.match(/^.+-(\d{10,})$/);
-  if (timestampSuffixMatch) {
-    const tsId = timestampSuffixMatch[1];
+  // slug-TIMESTAMP format (e.g. "venice-8212509425840") — extract slug hint and timestamp
+  const timestampSuffixMatch = paintingId.match(/^(.+)-(\d{10,})$/);
+  const slugHint = timestampSuffixMatch ? timestampSuffixMatch[1] : paintingId;
+  const tsId = timestampSuffixMatch ? timestampSuffixMatch[2] : null;
+
+  // 1. Try exact slug match first
+  const bySlug = allImages.find(img => {
+    const imgSlug = img.metadata.slug || generateSlug(img.metadata.title);
+    return imgSlug === slugHint;
+  });
+  if (bySlug) return bySlug;
+
+  // 2. If slug not found and we have a timestamp, fall back to timestamp
+  if (tsId) {
     return allImages.find(img => img.url.split('/').pop().split('.')[0] === tsId);
   }
 
-  // Fallback: plain slug match (for any old links without timestamp)
-  return allImages.find(img =>
-    img.metadata.slug === paintingId || generateSlug(img.metadata.title) === paintingId
-  );
+  return undefined;
 };
 
 // Pure utility functions — defined outside to avoid recreation on every render
@@ -346,13 +353,16 @@ function ImgGallery({
   }, [availablePictures, soldPictures, paintingId]);
 
   // Fetch painting directly on mount when URL contains a paintingId —
-  // runs in parallel with gallery loading so deep paintings open immediately
+  // runs in parallel with gallery loading so deep paintings open immediately.
+  // Only used for pure timestamp IDs — slug-based URLs are handled by findPaintingByUrlId
+  // to ensure the correct painting is shown when multiple share the same timestamp.
   useEffect(() => {
     if (!paintingId || isAdmin) return;
 
-    const timestampMatch = paintingId.match(/^.+-(\d{10,})$/);
-    const timestampId = timestampMatch ? timestampMatch[1] : (/^\d+$/.test(paintingId) ? paintingId : null);
-    if (!timestampId) return;
+    // If the URL has a slug component, skip direct fetch — let slug search handle it
+    if (!/^\d+$/.test(paintingId)) return;
+
+    const timestampId = paintingId;
 
     apiClient.getPaintingById(timestampId)
       .then(painting => {
