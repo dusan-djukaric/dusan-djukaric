@@ -190,26 +190,19 @@ function ImgGallery({
     isFetchingInitialRef.current = true;
     setLoading(true);
     try {
-      // Fetch available images
-      const availableResponse = await apiClient.getImages("available", null, 25, fromBeginning);
-      if (availableResponse && availableResponse.images) {
-        const availableImages = availableResponse.images.map(toImageEntry);
-        
-        const sortedAvailableImages = sortByUploadTime(availableImages);
-        
-        setAvailablePictures(sortedAvailableImages);
+      const [availableResponse, soldResponse] = await Promise.all([
+        apiClient.getImages("available", null, 25, fromBeginning),
+        apiClient.getImages("sold", null, 25, fromBeginning),
+      ]);
+
+      if (availableResponse?.images) {
+        setAvailablePictures(sortByUploadTime(availableResponse.images.map(toImageEntry)));
         setAvailableContinuationToken(availableResponse.continuationToken);
         setAllAvailablePicturesLoaded(!availableResponse.hasMore);
       }
 
-      // Fetch sold images
-      const soldResponse = await apiClient.getImages("sold", null, 25, fromBeginning);
-      if (soldResponse && soldResponse.images) {
-        const soldImages = soldResponse.images.map(toImageEntry);
-
-        const sortedSoldImages = sortByUploadTime(soldImages);
-
-        setSoldPictures(sortedSoldImages);
+      if (soldResponse?.images) {
+        setSoldPictures(sortByUploadTime(soldResponse.images.map(toImageEntry)));
         setSoldContinuationToken(soldResponse.continuationToken);
         setAllSoldPicturesLoaded(!soldResponse.hasMore);
       }
