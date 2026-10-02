@@ -1,0 +1,24 @@
+src/components/gallery/Filter.jsx
+  s_c0a3533d89fd6e::t_7ea5dcacd963a6 13,17-20
+  s_c0a3533d89fd6e::t_cc700050bfa3c3 71
+  s_c0a3533d89fd6e::t_866a533a5683ef 21
+server/api/working.js
+  s_c0a3533d89fd6e::t_e7362066171039 412
+  s_c0a3533d89fd6e::t_c623d605ba2e1c 133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "bfb32135b30fc5ed053e7684b4308faf0ad88850",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
