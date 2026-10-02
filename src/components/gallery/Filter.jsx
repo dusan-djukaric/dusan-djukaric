@@ -10,8 +10,14 @@ import i18next from "../../services/i18next";
 function Filter({ isAdmin, addedNewPicture, chosenLanguage }) {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("available");
   const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearchTerm(searchTerm), 300);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   const handleFilterChange = (e) => {
     setSelectedFilter(e.target.value);
@@ -62,7 +68,7 @@ function Filter({ isAdmin, addedNewPicture, chosenLanguage }) {
       </div>
       <ImgGallery
         filter={selectedFilter}
-        searchTerm={searchTerm}
+        searchTerm={debouncedSearchTerm}
         isAdmin={isAdmin}
         addedNewPicture={addedNewPicture}
         chosenLanguage={chosenLanguage}

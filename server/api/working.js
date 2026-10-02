@@ -130,7 +130,7 @@ app.post('/auth/logout', logout);
 // Fetch a single painting by timestamp ID (checks available + sold)
 app.get('/s3/painting/:id', async (req, res) => {
   const { id } = req.params;
-  if (!/^\d+$/.test(id)) return res.status(400).json({ error: 'Invalid ID' });
+  if (!/^\d+(\.\d+)?$/.test(id)) return res.status(400).json({ error: 'Invalid ID' });
 
   for (const folder of ['available', 'sold']) {
     const result = await oracleS3.listObjectsV2({
@@ -409,7 +409,7 @@ const getPaintingUrlId = (url, metadata) => {
 app.get('/og-image/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    if (!/^\d+$/.test(id)) return res.status(400).send('Invalid ID');
+    if (!/^\d+(\.\d+)?$/.test(id)) return res.status(400).send('Invalid ID');
 
     let imageKey = null;
     for (const folder of ['available', 'sold']) {
