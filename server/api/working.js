@@ -397,12 +397,12 @@ app.post('/s3/move', async (req, res) => {
 const generateSlug = (title) =>
   (title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-// URL ID helper — slug-TIMESTAMP format
+// URL ID helper — slug-FILEID format (full filename without final extension)
 const getPaintingUrlId = (url, metadata) => {
-  const timestampId = url.split('/').pop().split('.')[0];
+  const fileId = url.split('/').pop().replace(/\.[^.]+$/, '');
   const baseSlug = (metadata.slug || generateSlug(metadata.title) || '').trim();
-  if (!baseSlug) return timestampId;
-  return `${baseSlug}-${timestampId}`;
+  if (!baseSlug) return fileId;
+  return `${baseSlug}-${fileId}`;
 };
 
 // OG image — letterbox painting onto 1200×630 canvas so portrait paintings aren't cropped on Facebook
