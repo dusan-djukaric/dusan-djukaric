@@ -190,21 +190,23 @@ function ImgGallery({
     isFetchingInitialRef.current = true;
     setLoading(true);
     try {
-      const [availableResponse, soldResponse] = await Promise.all([
+      const [availableResponse, soldResponse] = await Promise.allSettled([
         apiClient.getImages("available", null, 25, fromBeginning),
         apiClient.getImages("sold", null, 25, fromBeginning),
       ]);
 
-      if (availableResponse?.images) {
-        setAvailablePictures(sortByUploadTime(availableResponse.images.map(toImageEntry)));
-        setAvailableContinuationToken(availableResponse.continuationToken);
-        setAllAvailablePicturesLoaded(!availableResponse.hasMore);
+      if (availableResponse.status === 'fulfilled' && availableResponse.value?.images) {
+        const r = availableResponse.value;
+        setAvailablePictures(sortByUploadTime(r.images.map(toImageEntry)));
+        setAvailableContinuationToken(r.continuationToken);
+        setAllAvailablePicturesLoaded(!r.hasMore);
       }
 
-      if (soldResponse?.images) {
-        setSoldPictures(sortByUploadTime(soldResponse.images.map(toImageEntry)));
-        setSoldContinuationToken(soldResponse.continuationToken);
-        setAllSoldPicturesLoaded(!soldResponse.hasMore);
+      if (soldResponse.status === 'fulfilled' && soldResponse.value?.images) {
+        const r = soldResponse.value;
+        setSoldPictures(sortByUploadTime(r.images.map(toImageEntry)));
+        setSoldContinuationToken(r.continuationToken);
+        setAllSoldPicturesLoaded(!r.hasMore);
       }
     } catch (error) {
       console.error('Error fetching images:', error);
