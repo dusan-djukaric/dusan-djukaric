@@ -1,0 +1,20 @@
+api/prerender.js
+  s_c0a3533d89fd6e::t_25916f89089aaf 79
+  s_c0a3533d89fd6e::t_3a0e35cf961a1f 52,67-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "359684cc57d7514f2c57d65fe7cfd7fefea7d3a3",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
