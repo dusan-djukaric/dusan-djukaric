@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
           const meta = painting.metadata || {};
           const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
           const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
-          const ogImageUrl = `${BACKEND_URL}/og-image/${timestampId}`;
+          const ogImageUrl = painting.url;
 
           const html = `<!DOCTYPE html>
 <html lang="en">
@@ -64,8 +64,6 @@ module.exports = async (req, res) => {
   <meta property="og:title"       content="${escapeHtml(title)} — Dusan Djukaric" />
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:image"       content="${escapeHtml(ogImageUrl)}" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
 
   <!-- Twitter / X card -->
   <meta name="twitter:card"        content="summary_large_image" />
