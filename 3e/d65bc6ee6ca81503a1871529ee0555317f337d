@@ -1,0 +1,25 @@
+server/routes/s3.js
+  s_c0a3533d89fd6e::t_f1944b285a1711 5
+  s_c0a3533d89fd6e::t_321f9c532f29c3 38
+server/api/working.js
+  s_c0a3533d89fd6e::t_67276b0ddee128 10
+  s_c0a3533d89fd6e::t_bfa4e34318ad98 324
+server/lib/textUtils.js
+  s_c0a3533d89fd6e::t_84d645d2d7ed9d 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3ed65bc6ee6ca81503a1871529ee0555317f337d",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
