@@ -1,0 +1,32 @@
+server/api/working.js
+  s_c0a3533d89fd6e::t_4223c505d7ea97 324
+src/App.js
+  s_c0a3533d89fd6e::t_c0bec0ee114c93 14-23,30
+api/prerender.js
+  s_c0a3533d89fd6e::t_fddb7391e2290d 128
+  s_c0a3533d89fd6e::t_8c80efb7022e49 52,55-69,77-78,81-83,85-88,95-97
+  s_c0a3533d89fd6e::t_fcf9e10220c130 54,70,76,84,92
+  s_c0a3533d89fd6e::t_c8d9fa458a2133 53
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_3dfa41b4a4b46e 373-376
+  s_c0a3533d89fd6e::t_d74a8bdc12e22d 85-86,91
+  s_c0a3533d89fd6e::t_50835413924d1c 685
+  s_c0a3533d89fd6e::t_4764a1d48c5247 737
+  s_c0a3533d89fd6e::t_e4d61f2dda725b 273
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e5cec3c34952006b2e725b08544c70f7fd39845c",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
