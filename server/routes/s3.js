@@ -2,6 +2,7 @@ const express = require('express');
 const { authenticate } = require('../middleware/auth');
 const { s3, bucket, objectUrl } = require('../lib/objectStorage');
 const upload = require('../lib/upload');
+const { normalizeTypographic } = require('../lib/textUtils');
 const router = express.Router();
 
 // In-memory cache for listing responses — invalidated on any write operation
@@ -34,7 +35,7 @@ const invalidateListingCache = () => listingCache.clear();
 
 const sanitizeInput = (input) => {
   if (!input || typeof input !== 'string') return '';
-  return input.replace(/[<>'"&]/g, '').trim().substring(0, 500);
+  return normalizeTypographic(input).replace(/[<>'"&]/g, '').trim().substring(0, 500);
 };
 
 // Sidecar .json key for extended metadata (descriptions, SEO data)

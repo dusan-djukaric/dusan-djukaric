@@ -7,6 +7,7 @@ const sharp = require('sharp');
 const { authenticate, login, logout } = require('../middleware/auth');
 const exhibitionsRouter = require('../routes/exhibitions');
 const pressRouter = require('../routes/press');
+const { normalizeTypographic } = require('../lib/textUtils');
 
 const app = express();
 
@@ -320,7 +321,7 @@ app.post('/s3/upload', authenticate, upload.single('image'), async (req, res) =>
       Body: file.buffer,
       ContentType: file.mimetype,
       Metadata: {
-        title: title || '',
+        title: normalizeTypographic(title),
         titlesrb: encodeURIComponent(naslovSlike || ''),
         x_dim: dimX || '',
         y_dim: dimY || '',
