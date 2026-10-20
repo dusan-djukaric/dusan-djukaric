@@ -13,6 +13,8 @@ function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function safeDecode(s) { try { return decodeURIComponent(s); } catch { return s; } }
+
 // Extract the full file ID from a painting URL segment.
 // Handles: "8212509425840" (timestamp), "8212509425840.506" (timestamp.suffix),
 // "venice-8212509425840" and "venice-8212509425840.506" (slug-prefixed variants).
@@ -49,6 +51,8 @@ module.exports = async (req, res) => {
           const meta = painting.metadata || {};
           const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
           const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
+          const titleSrb = safeDecode(meta.seotitlesrb || meta.titlesrb || '') || null;
+          const descriptionSrb = safeDecode(meta.metadescriptionsrb || meta.descriptionsrb || '') || null;
           const ogImageUrl = `${BACKEND_URL}/og-image/${timestampId}`;
 
           const fullTitle = `${escapeHtml(title)} — Dusan Djukaric`;
@@ -56,6 +60,7 @@ module.exports = async (req, res) => {
             "@context": "https://schema.org",
             "@type": "VisualArtwork",
             "name": title,
+            ...(titleSrb && { "alternateName": titleSrb }),
             "description": description,
             "image": ogImageUrl,
             "url": targetUrl,
@@ -99,6 +104,7 @@ module.exports = async (req, res) => {
 <body>
   <h1>${escapeHtml(title)}</h1>
   <p>${escapeHtml(description)}</p>
+  ${[titleSrb, descriptionSrb].filter(Boolean).map(v => `<p lang="sr">${escapeHtml(v)}</p>`).join('\n  ')}
   <img src="${escapeHtml(painting.url)}" alt="${escapeHtml(title)}" />
   <a href="${escapeHtml(targetUrl)}">View painting</a>
 </body>

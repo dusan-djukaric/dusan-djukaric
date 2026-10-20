@@ -88,7 +88,7 @@ const getTitleForLanguage = (lang, metadata) => {
   if (lang === "eng" || lang === "en") {
     return metadata["title"];
   }
-  return safeDecode(metadata["titlesrb"]);
+  return safeDecode(metadata["titlesrb"] || "");
 };
 
 /**
