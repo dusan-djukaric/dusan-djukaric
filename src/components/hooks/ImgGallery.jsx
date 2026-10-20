@@ -82,11 +82,13 @@ const sortByUploadTime = (images) => {
   return [...images].sort((a, b) => getTime(b) - getTime(a));
 };
 
+const safeDecode = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
+
 const getTitleForLanguage = (lang, metadata) => {
   if (lang === "eng" || lang === "en") {
     return metadata["title"];
   }
-  return decodeURIComponent(metadata["titlesrb"]);
+  return safeDecode(metadata["titlesrb"]);
 };
 
 /**
@@ -268,7 +270,7 @@ function ImgGallery({
       if (!img.metadata || !img.metadata.title) return false;
       if (!searchTerm) return true;
       const titleMatch = img.metadata.title.toLowerCase().includes(searchTerm.toLowerCase());
-      const serbianTitleMatch = decodeURIComponent(img.metadata.titlesrb || "").toLowerCase().includes(searchTerm.toLowerCase());
+      const serbianTitleMatch = safeDecode(img.metadata.titlesrb || "").toLowerCase().includes(searchTerm.toLowerCase());
       return titleMatch || serbianTitleMatch;
     });
   }, [imagesView, searchTerm]);
@@ -368,6 +370,10 @@ function ImgGallery({
         setCurrentImage({ img: painting.url, metadata: painting.metadata });
         setShowPopup(true);
         document.body.style.overflow = "hidden";
+        const canonicalId = getPaintingUrlId(painting.url, painting.metadata);
+        if (canonicalId !== paintingId) {
+          navigate(`/gallery/${canonicalId}`, { replace: true });
+        }
       })
       .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -676,7 +682,7 @@ function ImgGallery({
                     <p className="lg:hidden text-[11px] xl:text-[12px] text-gray-600 mt-1">
                       {(i18n.language === "eng" || i18n.language === "en")
                         ? metadata["description"]
-                        : (decodeURIComponent(metadata["descriptionsrb"] || "") || metadata["description"])}
+                        : (safeDecode(metadata["descriptionsrb"] || "") || metadata["description"])}
                     </p>
                   )}
                 </div>
@@ -728,7 +734,7 @@ function ImgGallery({
               Da li ste sigurni da želite da obrišete ovu sliku?
             </h2>
             <p className="mx-auto mt-[100px] mb-10 text-4xl text-slate-700">
-              {decodeURIComponent(deleteImageInfo?.metadata["titlesrb"])}
+              {safeDecode(deleteImageInfo?.metadata["titlesrb"] || "")}
             </p>
             <p className="mx-auto mb-[130px] text-slate-500">
               Ovo je trajna izmena.

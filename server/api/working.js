@@ -321,7 +321,7 @@ app.post('/s3/upload', authenticate, upload.single('image'), async (req, res) =>
       ContentType: file.mimetype,
       Metadata: {
         title: title || '',
-        titlesrb: naslovSlike || '',
+        titlesrb: encodeURIComponent(naslovSlike || ''),
         x_dim: dimX || '',
         y_dim: dimY || '',
         sold: 'false',

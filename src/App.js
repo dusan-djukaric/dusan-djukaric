@@ -11,12 +11,23 @@ import { Helmet } from "react-helmet-async";
 import Home from "./components/main-section/Home";
 import Exhibitions from "./components/exhibitions/exhibitions";
 
+const PERSON_LD_JSON = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Dušan Đukarić",
+  "alternateName": "Dusan Djukaric",
+  "url": "https://www.dusandjukaric.com",
+  "jobTitle": "Watercolor Artist",
+  "description": "Serbian watercolor artist known for vibrant landscapes and urban scenes"
+});
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
     <>
       <Helmet>
         <title>Dusan Djukaric</title>
+        <script type="application/ld+json">{PERSON_LD_JSON}</script>
       </Helmet>
       <Router>
         <Routes>

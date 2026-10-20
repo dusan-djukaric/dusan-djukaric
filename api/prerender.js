@@ -49,27 +49,52 @@ module.exports = async (req, res) => {
           const meta = painting.metadata || {};
           const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
           const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
-          const ogImageUrl = painting.url;
+          const ogImageUrl = `${BACKEND_URL}/og-image/${timestampId}`;
+
+          const fullTitle = `${escapeHtml(title)} — Dusan Djukaric`;
+          const structuredData = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "VisualArtwork",
+            "name": title,
+            "description": description,
+            "image": ogImageUrl,
+            "url": targetUrl,
+            "creator": {
+              "@type": "Person",
+              "name": "Dušan Đukarić",
+              "alternateName": "Dusan Djukaric",
+              "url": "https://www.dusandjukaric.com"
+            },
+            "artMedium": "Watercolor",
+            "artform": "Painting"
+          }).replace(/<\//g, '<\\/');
 
           const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>${escapeHtml(title)} — Dusan Djukaric</title>
+  <title>${fullTitle}</title>
+  <meta name="description" content="${escapeHtml(description)}" />
+  <link rel="canonical" href="${escapeHtml(targetUrl)}" />
 
   <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="${escapeHtml(targetUrl)}" />
-  <meta property="og:site_name"   content="Dusan Djukaric" />
-  <meta property="og:title"       content="${escapeHtml(title)} — Dusan Djukaric" />
-  <meta property="og:description" content="${escapeHtml(description)}" />
-  <meta property="og:image"       content="${escapeHtml(ogImageUrl)}" />
+  <meta property="og:type"         content="website" />
+  <meta property="og:url"          content="${escapeHtml(targetUrl)}" />
+  <meta property="og:site_name"    content="Dusan Djukaric" />
+  <meta property="og:title"        content="${fullTitle}" />
+  <meta property="og:description"  content="${escapeHtml(description)}" />
+  <meta property="og:image"        content="${escapeHtml(ogImageUrl)}" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <!-- Twitter / X card -->
   <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="${escapeHtml(title)} — Dusan Djukaric" />
+  <meta name="twitter:title"       content="${fullTitle}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
   <meta name="twitter:image"       content="${escapeHtml(ogImageUrl)}" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">${structuredData}</script>
 </head>
 <body>
   <h1>${escapeHtml(title)}</h1>
@@ -100,6 +125,7 @@ module.exports = async (req, res) => {
           'User-Agent': req.headers['user-agent'] || 'Googlebot'
         }
       });
+      if (!response.ok) throw new Error(`Prerender.io returned ${response.status}`);
       const html = await response.text();
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('X-Prerender-Status', response.status.toString());
