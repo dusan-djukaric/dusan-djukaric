@@ -135,9 +135,11 @@ function ImgGallery({
   useEffect(() => { availableTokenRef.current = availableContinuationToken; }, [availableContinuationToken]);
   useEffect(() => { soldTokenRef.current = soldContinuationToken; }, [soldContinuationToken]);
 
-  // Infinite scroll sentinel + fetch guard
+  // Infinite scroll sentinel + fetch guards (one per filter so both can load concurrently)
   const sentinelRef = useRef(null);
-  const isFetchingRef = useRef(false);
+  const isFetchingRef = useRef(false);     // available
+  const isFetchingSoldRef = useRef(false); // sold
+  const loadingCountRef = useRef(0);       // concurrent fetch counter for loading spinner
   // Blocks loadMorePictures while fetchImages is running (prevents concurrent page-1 fetches)
   const isFetchingInitialRef = useRef(false);
   // Stable ref to loadMorePictures so the showPopup effect doesn't re-fire on filter change
@@ -159,25 +161,29 @@ function ImgGallery({
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
   const [deleteImageInfo, setDeleteImageInfo] = useState(null);
 
-  const loadMorePictures = useCallback(async () => {
-    if (isFetchingRef.current || isFetchingInitialRef.current) return;
-    isFetchingRef.current = true;
+  const loadMorePictures = useCallback(async (forceFilter) => {
+    if (isFetchingInitialRef.current) return;
+    const targetFilter = forceFilter || filter;
+    const fetchGuard = targetFilter === "available" ? isFetchingRef : isFetchingSoldRef;
+    if (fetchGuard.current) return;
+    fetchGuard.current = true;
+    loadingCountRef.current++;
     setLoading(true);
     try {
-      const continuationToken = filter === "available"
+      const continuationToken = targetFilter === "available"
         ? availableTokenRef.current
         : soldTokenRef.current;
 
-      const response = await apiClient.getImages(filter, continuationToken);
+      const response = await apiClient.getImages(targetFilter, continuationToken);
 
       if (response && response.images) {
         const newImages = response.images.map(toImageEntry);
 
-        if (filter === "available") {
+        if (targetFilter === "available") {
           setAvailablePictures(prev => sortByUploadTime([...prev, ...newImages]));
           setAvailableContinuationToken(response.continuationToken);
           setAllAvailablePicturesLoaded(!response.hasMore);
-        } else if (filter === "sold") {
+        } else if (targetFilter === "sold") {
           setSoldPictures(prev => sortByUploadTime([...prev, ...newImages]));
           setSoldContinuationToken(response.continuationToken);
           setAllSoldPicturesLoaded(!response.hasMore);
@@ -186,8 +192,8 @@ function ImgGallery({
     } catch (error) {
       console.error('Error loading images:', error);
     } finally {
-      setLoading(false);
-      isFetchingRef.current = false;
+      if (--loadingCountRef.current === 0) setLoading(false);
+      fetchGuard.current = false;
     }
   }, [filter]);
 
@@ -241,10 +247,12 @@ function ImgGallery({
     const allLoaded = filter === "available" ? allAvailablePicturesLoaded : allSoldPicturesLoaded;
     if (allLoaded) return;
 
+    const fetchGuard = filter === "available" ? isFetchingRef : isFetchingSoldRef;
+
     // TV browsers may not support IntersectionObserver — fall back to a scroll listener
     if (!('IntersectionObserver' in window)) {
       const handleScroll = () => {
-        if (!sentinelRef.current || isFetchingRef.current) return;
+        if (!sentinelRef.current || fetchGuard.current) return;
         const rect = sentinelRef.current.getBoundingClientRect();
         if (rect.top <= window.innerHeight + 200) {
           loadMorePictures();
@@ -256,7 +264,7 @@ function ImgGallery({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isFetchingRef.current) {
+        if (entries[0].isIntersecting && !fetchGuard.current) {
           loadMorePictures();
         }
       },
@@ -352,8 +360,9 @@ function ImgGallery({
           return prev;
         });
       }
-    } else if (!allAvailablePicturesLoaded || !allSoldPicturesLoaded) {
-      loadMorePicturesRef.current?.();
+    } else {
+      if (!allAvailablePicturesLoaded) loadMorePicturesRef.current?.();
+      if (!allSoldPicturesLoaded) loadMorePicturesRef.current?.("sold");
     }
   }, [availablePictures, soldPictures, paintingId, allAvailablePicturesLoaded, allSoldPicturesLoaded]);
 
