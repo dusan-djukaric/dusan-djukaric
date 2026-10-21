@@ -61,6 +61,7 @@ function ShowPopup({
     <>
       {currentMeta && (
         <Helmet>
+          <link rel="canonical" href={window.location.href} />
           {(currentMeta["seotitle"] || currentMeta["seotitlesrb"]) && (
             <title>
               {(language === "eng" || language === "en") ? currentMeta["seotitle"] : (currentMeta["seotitlesrb"] || currentMeta["seotitle"])}

@@ -351,6 +351,10 @@ function ImgGallery({
         setCurrentImage({ img: match.url, metadata: match.metadata });
         setShowPopup(true);
         document.body.style.overflow = "hidden";
+        const canonicalId = getPaintingUrlId(match.url, match.metadata);
+        if (canonicalId !== paintingId) {
+          navigate(`/gallery/${canonicalId}`, { replace: true });
+        }
       } else {
         // Popup already open via direct fetch — override if slug found a different painting
         setCurrentImage(prev => {
