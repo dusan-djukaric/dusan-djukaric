@@ -1,0 +1,21 @@
+src/components/hooks/ShowPopUp.jsx
+  s_c0a3533d89fd6e::t_479a041a9e6466 64
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_6b762dbfd6e9da 354-357
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2d56c9cdaa88921ac525f3e76cde454ca55a041b",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
