@@ -161,7 +161,7 @@ function ImgGallery({
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
   const [deleteImageInfo, setDeleteImageInfo] = useState(null);
 
-  const loadMorePictures = useCallback(async (forceFilter) => {
+  const loadMorePictures = useCallback(async (forceFilter, maxKeys) => {
     if (isFetchingInitialRef.current) return;
     const targetFilter = forceFilter || filter;
     const fetchGuard = targetFilter === "available" ? isFetchingRef : isFetchingSoldRef;
@@ -174,7 +174,7 @@ function ImgGallery({
         ? availableTokenRef.current
         : soldTokenRef.current;
 
-      const response = await apiClient.getImages(targetFilter, continuationToken);
+      const response = await apiClient.getImages(targetFilter, continuationToken, maxKeys);
 
       if (response && response.images) {
         const newImages = response.images.map(toImageEntry);
@@ -200,10 +200,13 @@ function ImgGallery({
   const fetchImages = async (fromBeginning) => {
     isFetchingInitialRef.current = true;
     setLoading(true);
+    // Load a larger first page when the user deep-linked to a specific painting
+    // so the slug search has more data to scan before needing a second round-trip.
+    const initialPageSize = paintingId ? 100 : 25;
     try {
       const [availableResponse, soldResponse] = await Promise.allSettled([
-        apiClient.getImages("available", null, 25, fromBeginning),
-        apiClient.getImages("sold", null, 25, fromBeginning),
+        apiClient.getImages("available", null, initialPageSize, fromBeginning),
+        apiClient.getImages("sold", null, initialPageSize, fromBeginning),
       ]);
 
       if (availableResponse.status === 'fulfilled' && availableResponse.value?.images) {
@@ -365,8 +368,8 @@ function ImgGallery({
         });
       }
     } else {
-      if (!allAvailablePicturesLoaded) loadMorePicturesRef.current?.();
-      if (!allSoldPicturesLoaded) loadMorePicturesRef.current?.("sold");
+      if (!allAvailablePicturesLoaded) loadMorePicturesRef.current?.(undefined, 100);
+      if (!allSoldPicturesLoaded) loadMorePicturesRef.current?.("sold", 100);
     }
   }, [availablePictures, soldPictures, paintingId, allAvailablePicturesLoaded, allSoldPicturesLoaded]);
 
