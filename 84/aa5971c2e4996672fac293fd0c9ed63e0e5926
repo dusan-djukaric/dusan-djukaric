@@ -1,0 +1,21 @@
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_68f82792f504b0 371-372
+  s_c0a3533d89fd6e::t_aab1af3e17c50a 164,177
+  s_c0a3533d89fd6e::t_f2f554e2b9e676 203-205,208-209
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "84aa5971c2e4996672fac293fd0c9ed63e0e5926",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
