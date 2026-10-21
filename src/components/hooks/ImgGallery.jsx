@@ -53,8 +53,11 @@ const findPaintingByUrlId = (paintingId, allImages) => {
   });
   if (bySlug) return bySlug;
 
-  // 2. Fall back to full file ID match
-  if (fileId) {
+  // 2. Fall back to full file ID match — only when no slug is present.
+  // When a slug is present, the fileId alone is not a reliable identifier
+  // (multiple paintings may share the same base timestamp). Return undefined
+  // so the gallery effect keeps loading pages until the slug match succeeds.
+  if (fileId && !slugHint) {
     return allImages.find(img => getFileId(img.url) === fileId);
   }
 
@@ -362,6 +365,11 @@ function ImgGallery({
     const timestampMatch = paintingId.match(/^.+-(\d{10,}(?:\.\d+)?)$/);
     const timestampId = timestampMatch ? timestampMatch[1] : (/^\d+(\.\d+)?$/.test(paintingId) ? paintingId : null);
     if (!timestampId) return;
+
+    // Integer-only ID with slug prefix is ambiguous — multiple paintings share the same
+    // base timestamp (e.g. 8307125870236 is both Rainy Day and 71 others with decimal suffixes).
+    // Skip direct fetch; gallery slug search will find the correct painting.
+    if (!timestampId.includes('.') && timestampMatch) return;
 
     apiClient.getPaintingById(timestampId)
       .then(painting => {

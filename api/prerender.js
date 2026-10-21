@@ -15,6 +15,9 @@ function escapeHtml(str) {
 
 function safeDecode(s) { try { return decodeURIComponent(s); } catch { return s; } }
 
+const generateSlug = (title) =>
+  (title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 // Extract the full file ID from a painting URL segment.
 // Handles: "8212509425840" (timestamp), "8212509425840.506" (timestamp.suffix),
 // "venice-8212509425840" and "venice-8212509425840.506" (slug-prefixed variants).
@@ -49,6 +52,20 @@ module.exports = async (req, res) => {
         if (apiRes.ok) {
           const painting = await apiRes.json();
           const meta = painting.metadata || {};
+
+          // Integer-only IDs (no decimal) can be ambiguous — multiple paintings share
+          // the same base timestamp. If the painting returned doesn't match the slug in
+          // the URL, redirect bots to the gallery rather than serve wrong content.
+          if (!timestampId.includes('.')) {
+            const urlSlugMatch = galleryMatch[1].match(/^(.+)-\d{10,}$/);
+            const urlSlug = urlSlugMatch ? urlSlugMatch[1] : null;
+            const paintingSlug = meta.slug || generateSlug(meta.title);
+            if (urlSlug && paintingSlug && paintingSlug !== urlSlug) {
+              res.setHeader('Location', 'https://www.dusandjukaric.com/gallery');
+              return res.status(301).send('');
+            }
+          }
+
           const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
           const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
           const titleSrb = safeDecode(meta.seotitlesrb || meta.titlesrb || '') || null;
