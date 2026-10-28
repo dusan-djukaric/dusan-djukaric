@@ -8,6 +8,7 @@
 // so general SEO crawlers still get fully-rendered HTML.
 
 const BACKEND_URL = process.env.BACKEND_URL || 'https://dusan-djukaric-rho.vercel.app';
+const SITE_URL = 'https://www.dusandjukaric.com';
 
 function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -17,6 +18,10 @@ function safeDecode(s) { try { return decodeURIComponent(s); } catch { return s;
 
 const generateSlug = (title) =>
   (title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Extract full file ID from an Oracle URL (filename without final extension)
+// e.g. ".../available/8307125870236.561.jpeg" → "8307125870236.561"
+const getFileId = (url) => (url || '').split('/').pop().replace(/\.[^.]+$/, '');
 
 // Extract the full file ID from a painting URL segment.
 // Handles: "8212509425840" (timestamp), "8212509425840.506" (timestamp.suffix),
@@ -55,14 +60,18 @@ module.exports = async (req, res) => {
 
           // Integer-only IDs (no decimal) can be ambiguous — multiple paintings share
           // the same base timestamp. If the painting returned doesn't match the slug in
-          // the URL, redirect bots to the gallery rather than serve wrong content.
+          // the URL, redirect bots to the painting's actual canonical URL so Google
+          // re-indexes at the correct address rather than de-indexing it.
           if (!timestampId.includes('.')) {
             const urlSlugMatch = galleryMatch[1].match(/^(.+)-\d{10,}$/);
             const urlSlug = urlSlugMatch ? urlSlugMatch[1] : null;
-            const paintingSlug = meta.slug || generateSlug(meta.title);
-            if (urlSlug && paintingSlug && paintingSlug !== urlSlug) {
-              res.setHeader('Location', 'https://www.dusandjukaric.com/gallery');
-              return res.status(301).send('');
+            if (urlSlug) {
+              const paintingSlug = meta.slug || generateSlug(meta.title);
+              if (paintingSlug && paintingSlug !== urlSlug) {
+                const canonicalUrl = `${SITE_URL}/gallery/${paintingSlug}-${getFileId(painting.url)}`;
+                res.setHeader('Location', canonicalUrl);
+                return res.status(301).send('');
+              }
             }
           }
 
@@ -85,7 +94,7 @@ module.exports = async (req, res) => {
               "@type": "Person",
               "name": "Dušan Đukarić",
               "alternateName": "Dusan Djukaric",
-              "url": "https://www.dusandjukaric.com"
+              "url": SITE_URL
             },
             "artMedium": "Watercolor",
             "artform": "Painting"
