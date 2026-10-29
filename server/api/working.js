@@ -442,6 +442,15 @@ app.get('/og-image/:id', async (req, res) => {
   }
 });
 
+async function batchedAll(items, fn, concurrency = 10) {
+  const results = [];
+  for (let i = 0; i < items.length; i += concurrency) {
+    const batch = await Promise.all(items.slice(i, i + concurrency).map(fn));
+    results.push(...batch);
+  }
+  return results;
+}
+
 // Sitemap — lists all non-deleted paintings with slug-TIMESTAMP URLs
 app.get('/sitemap.xml', async (req, res) => {
   try {
@@ -456,7 +465,7 @@ app.get('/sitemap.xml', async (req, res) => {
         const response = await oracleS3.listObjectsV2(params).promise();
         const imageObjects = (response.Contents || []).filter(obj => !obj.Key.endsWith('.json'));
 
-        const metas = await Promise.all(imageObjects.map(async (obj) => {
+        const metas = await batchedAll(imageObjects, async (obj) => {
           try {
             const [head, extended] = await Promise.all([
               oracleS3.headObject({ Bucket: oracleBucket, Key: obj.Key }).promise(),
@@ -466,7 +475,7 @@ app.get('/sitemap.xml', async (req, res) => {
             if (metadata.deleted === 'true') return null;
             return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata, lastModified: obj.LastModified };
           } catch { return null; }
-        }));
+        });
 
         metas.filter(Boolean).forEach(item => allImages.push(item));
         continuationToken = response.NextContinuationToken;
@@ -494,7 +503,7 @@ app.get('/sitemap.xml', async (req, res) => {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${staticEntries.join('\n')}\n${paintingEntries.join('\n')}\n</urlset>`;
 
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.status(200).send(xml);
   } catch (error) {
     console.error('Sitemap error:', error);
