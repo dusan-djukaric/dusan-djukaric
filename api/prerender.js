@@ -75,7 +75,8 @@ module.exports = async (req, res) => {
             }
           }
 
-          const title = meta.seotitle || meta.title || 'Painting by Dusan Djukaric';
+          const title = (meta.seotitle || meta.title || 'Painting by Dusan Djukaric')
+            .replace(/\s*\|\s*Dusan Djukari[cć]?\s*$/i, '').trim();
           const description = meta.metadescription || meta.description || 'Watercolor painting by Dusan Djukaric';
           const titleSrb = safeDecode(meta.seotitlesrb || meta.titlesrb || '') || null;
           const descriptionSrb = safeDecode(meta.metadescriptionsrb || meta.descriptionsrb || '') || null;
