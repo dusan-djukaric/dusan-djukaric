@@ -465,16 +465,15 @@ app.get('/sitemap.xml', async (req, res) => {
         const response = await oracleS3.listObjectsV2(params).promise();
         const imageObjects = (response.Contents || []).filter(obj => !obj.Key.endsWith('.json'));
 
-        const metas = await batchedAll(imageObjects, async (obj) => {
-          try {
-            const head = await oracleS3.headObject({ Bucket: oracleBucket, Key: obj.Key }).promise();
-            if (head.Metadata.deleted === 'true') return null;
-            // Use S3 metadata title only — skipping sidecar halves API calls and keeps
-            // generation time under Vercel's function timeout (~5s vs ~36s with sidecar).
-            // If a custom slug differs from the title slug, prerender will 301 to canonical.
-            return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata: head.Metadata, lastModified: obj.LastModified };
-          } catch { return null; }
-        }, 50);
+        // No per-object API calls — build URLs directly from the S3 listing.
+        // Numeric-only URLs (e.g. /gallery/8264634187531) are valid: prerender serves
+        // correct HTML with the slug-based canonical and Google follows it.
+        // This keeps generation under 1s vs 30+ seconds with headObject calls.
+        const metas = imageObjects.map(obj => ({
+          url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`,
+          metadata: {},
+          lastModified: obj.LastModified
+        }));
 
         metas.filter(Boolean).forEach(item => allImages.push(item));
         continuationToken = response.NextContinuationToken;
