@@ -1,0 +1,20 @@
+server/api/working.js
+  s_c0a3533d89fd6e::t_fe8dab0d829115 468-477
+  s_c0a3533d89fd6e::t_30a11a5d3d5cf1 505
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "27a873035ab675b28790259cde0bdede698fd5e4",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
