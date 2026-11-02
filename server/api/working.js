@@ -474,7 +474,7 @@ app.get('/sitemap.xml', async (req, res) => {
             // If a custom slug differs from the title slug, prerender will 301 to canonical.
             return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata: head.Metadata, lastModified: obj.LastModified };
           } catch { return null; }
-        }, 20);
+        }, 50);
 
         metas.filter(Boolean).forEach(item => allImages.push(item));
         continuationToken = response.NextContinuationToken;
