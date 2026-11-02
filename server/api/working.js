@@ -467,15 +467,14 @@ app.get('/sitemap.xml', async (req, res) => {
 
         const metas = await batchedAll(imageObjects, async (obj) => {
           try {
-            const [head, extended] = await Promise.all([
-              oracleS3.headObject({ Bucket: oracleBucket, Key: obj.Key }).promise(),
-              readSidecar(obj.Key)
-            ]);
-            const metadata = { ...head.Metadata, ...extended };
-            if (metadata.deleted === 'true') return null;
-            return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata, lastModified: obj.LastModified };
+            const head = await oracleS3.headObject({ Bucket: oracleBucket, Key: obj.Key }).promise();
+            if (head.Metadata.deleted === 'true') return null;
+            // Use S3 metadata title only — skipping sidecar halves API calls and keeps
+            // generation time under Vercel's function timeout (~5s vs ~36s with sidecar).
+            // If a custom slug differs from the title slug, prerender will 301 to canonical.
+            return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata: head.Metadata, lastModified: obj.LastModified };
           } catch { return null; }
-        });
+        }, 20);
 
         metas.filter(Boolean).forEach(item => allImages.push(item));
         continuationToken = response.NextContinuationToken;
