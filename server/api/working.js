@@ -465,15 +465,16 @@ app.get('/sitemap.xml', async (req, res) => {
         const response = await oracleS3.listObjectsV2(params).promise();
         const imageObjects = (response.Contents || []).filter(obj => !obj.Key.endsWith('.json'));
 
-        // No per-object API calls — build URLs directly from the S3 listing.
-        // Numeric-only URLs (e.g. /gallery/8264634187531) are valid: prerender serves
-        // correct HTML with the slug-based canonical and Google follows it.
-        // This keeps generation under 1s vs 30+ seconds with headObject calls.
-        const metas = imageObjects.map(obj => ({
-          url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`,
-          metadata: {},
-          lastModified: obj.LastModified
-        }));
+        // headObject only (no sidecar) at high concurrency — gets title for slug
+        // generation in ~5s. Sidecar custom slugs are skipped; if they differ from
+        // the title slug, prerender will 301 to canonical (acceptable SEO behaviour).
+        const metas = await batchedAll(imageObjects, async (obj) => {
+          try {
+            const head = await oracleS3.headObject({ Bucket: oracleBucket, Key: obj.Key }).promise();
+            if (head.Metadata.deleted === 'true') return null;
+            return { url: `${process.env.ORACLE_ENDPOINT}/${oracleBucket}/${obj.Key}`, metadata: head.Metadata, lastModified: obj.LastModified };
+          } catch { return null; }
+        }, 100);
 
         metas.filter(Boolean).forEach(item => allImages.push(item));
         continuationToken = response.NextContinuationToken;
@@ -501,7 +502,7 @@ app.get('/sitemap.xml', async (req, res) => {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${staticEntries.join('\n')}\n${paintingEntries.join('\n')}\n</urlset>`;
 
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
     return res.status(200).send(xml);
   } catch (error) {
     console.error('Sitemap error:', error);
