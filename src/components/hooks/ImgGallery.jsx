@@ -53,11 +53,13 @@ const findPaintingByUrlId = (paintingId, allImages) => {
   });
   if (bySlug) return bySlug;
 
-  // 2. Fall back to full file ID match — only when no slug is present.
-  // When a slug is present, the fileId alone is not a reliable identifier
-  // (multiple paintings may share the same base timestamp). Return undefined
-  // so the gallery effect keeps loading pages until the slug match succeeds.
-  if (fileId && !slugHint) {
+  // 2. Fall back to full file ID match:
+  // - When no slug prefix (pure ID URL), OR
+  // - When fileId has no decimal suffix (old-format integer-only key, unambiguous).
+  //   Handles renamed paintings where the URL slug no longer matches current data.
+  //   Safe: decimal-suffix paintings have fileIds like "8307125870236.561" which
+  //   never match an integer-only lookup, so no ambiguity risk.
+  if (fileId && (!slugHint || !fileId.includes('.'))) {
     return allImages.find(img => getFileId(img.url) === fileId);
   }
 
