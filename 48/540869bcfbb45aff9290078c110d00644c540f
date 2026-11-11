@@ -1,0 +1,36 @@
+.env.example
+  s_c0a3533d89fd6e::t_98428c4b82c8f3 14,18
+  s_c0a3533d89fd6e::t_aaaaec5d58df92 15-17
+src/components/hooks/ImgGallery.jsx
+  s_c0a3533d89fd6e::t_9ccf5b2d1facfe 475
+  s_c0a3533d89fd6e::t_5798b5fd6b0a80 474
+  s_c0a3533d89fd6e::t_7da47b6e6c1ea4 820,825
+  s_c0a3533d89fd6e::t_55e3165a62fe68 167-168
+  s_c0a3533d89fd6e::t_06e7e26d39ca27 16
+  s_c0a3533d89fd6e::t_fd0d168039f391 821-824
+  s_c0a3533d89fd6e::t_e93b30c0cfe396 169
+src/index.js
+  s_c0a3533d89fd6e::t_e7d6db17e21b26 3,9
+  s_c0a3533d89fd6e::t_026bb746667b4a 10
+src/components/hooks/ContactModal.jsx
+  s_c0a3533d89fd6e::t_e016cae430089a 1,3-8,19-68,74,78,81,125,129,131,136-139
+  s_c0a3533d89fd6e::t_5b7c095d440510 2,9-18,69-73,75-77,79-80,82-124,126-128,130,132-135
+src/components/hooks/ShowPopUp.jsx
+  s_c0a3533d89fd6e::t_63076566537f46 154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "48540869bcfbb45aff9290078c110d00644c540f",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
