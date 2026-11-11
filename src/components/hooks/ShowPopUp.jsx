@@ -151,7 +151,7 @@ function ShowPopup({
               <button
                 className="popup-image lg:mx-auto m-1 h-8 border-gray-600 rounded px-2 text-[25px] hover:shadow-md hover:bg-neutral-50 transition-all duration-300 ease-in"
                 onClick={() =>
-                  handleSendRequest(activeEntry || { url: activeUrl, metadata: activeMeta })
+                  handleSendRequest(activeEntry?.url ?? activeUrl, activeMeta?.title)
                 }
               >
                 <IoMailOutline />

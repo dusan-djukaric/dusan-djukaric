@@ -13,6 +13,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
 import { IoAttach } from "react-icons/io5";
 import PaintingModal from "../addPictures/PaintingModal";
+import ContactModal from "./ContactModal";
 
 // Detect TV browsers by user-agent — Tizen (Samsung), webOS (LG), HbbTV, Android TV, etc.
 // Computed once at module load so it never causes re-renders.
@@ -162,6 +163,9 @@ function ImgGallery({
   // Modal State
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
   const [deleteImageInfo, setDeleteImageInfo] = useState(null);
+
+  // Contact form state — null means closed; { title, url } means open
+  const [contactPainting, setContactPainting] = useState(null);
 
   const loadMorePictures = useCallback(async (forceFilter, maxKeys) => {
     if (isFetchingInitialRef.current) return;
@@ -467,13 +471,8 @@ function ImgGallery({
     return () => window.removeEventListener('popstate', handlePopState);
   }, [showPopup, isAdmin]);
 
-  const handleSendRequest = (img, title) => {
-    const subject = `Request for ${title}`;
-    const mailtoURL = `mailto:dusandjukaric@yahoo.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(img)}`;
-
-    window.open(mailtoURL);
+  const handleSendRequest = (url, title) => {
+    setContactPainting({ url, title });
   };
 
   const handlePopupClick = (event) => {
@@ -818,6 +817,12 @@ function ImgGallery({
           }}
         />
       )}
+      <ContactModal
+        isOpen={contactPainting !== null}
+        onClose={() => setContactPainting(null)}
+        paintingTitle={contactPainting?.title}
+        paintingUrl={contactPainting?.url}
+      />
     </div>
   );
 }
