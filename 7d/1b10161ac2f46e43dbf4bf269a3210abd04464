@@ -1,0 +1,31 @@
+src/components/hooks/ShowPopUp.jsx
+  s_c0a3533d89fd6e::t_85bd377b4819d2 6
+  s_c0a3533d89fd6e::t_04658f5d20113b 157
+src/components/contact/Contact.jsx
+  s_c0a3533d89fd6e::t_aa2d6579066c27 135
+  s_c0a3533d89fd6e::t_e7452a6afdd167 7-8
+  s_c0a3533d89fd6e::t_f60ae1ae08a480 141
+  s_c0a3533d89fd6e::t_388e9be7d99a81 147
+src/components/gallery/Filter.jsx
+  s_c0a3533d89fd6e::t_265eddbdef8ec1 46
+  s_c0a3533d89fd6e::t_3c2079474c16a8 5
+src/App.js
+  s_c0a3533d89fd6e::t_9bbccb0d32234d 2
+  s_c0a3533d89fd6e::t_22b0492bc68f25 43-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7d1b10161ac2f46e43dbf4bf269a3210abd04464",
+  "prompts": {},
+  "sessions": {
+    "s_c0a3533d89fd6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8249f2dd-c380-43ec-b756-970e173ab7f9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "dusan-djukaric <ddj.imagestorage@gmail.com>"
+    }
+  }
+}
