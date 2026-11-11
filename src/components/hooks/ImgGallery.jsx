@@ -47,24 +47,18 @@ const findPaintingByUrlId = (paintingId, allImages) => {
   const slugHint = timestampSuffixMatch ? timestampSuffixMatch[1] : paintingId;
   const fileId = timestampSuffixMatch ? timestampSuffixMatch[2] : null;
 
-  // 1. Try exact slug match first
-  const bySlug = allImages.find(img => {
+  // 1. Try exact fileId match first — always unambiguous (exact filename).
+  //    Handles duplicate titles ("Perast", "Venice"…) where slug alone is not unique.
+  if (fileId) {
+    const byFileId = allImages.find(img => getFileId(img.url) === fileId);
+    if (byFileId) return byFileId;
+  }
+
+  // 2. Fall back to slug match — for URLs without a numeric suffix.
+  return allImages.find(img => {
     const imgSlug = img.metadata.slug || generateSlug(img.metadata.title);
     return imgSlug === slugHint;
   });
-  if (bySlug) return bySlug;
-
-  // 2. Fall back to full file ID match:
-  // - When no slug prefix (pure ID URL), OR
-  // - When fileId has no decimal suffix (old-format integer-only key, unambiguous).
-  //   Handles renamed paintings where the URL slug no longer matches current data.
-  //   Safe: decimal-suffix paintings have fileIds like "8307125870236.561" which
-  //   never match an integer-only lookup, so no ambiguity risk.
-  if (fileId && (!slugHint || !fileId.includes('.'))) {
-    return allImages.find(img => getFileId(img.url) === fileId);
-  }
-
-  return undefined;
 };
 
 const toImageEntry = (img) => ({
