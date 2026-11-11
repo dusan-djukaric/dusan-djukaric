@@ -3,6 +3,7 @@ import { useSwipeable } from "react-swipeable";
 import Handlers from "./Handlers";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
+import { IoMailOutline } from "react-icons/io5";
 
 function ShowPopup({
   showPopup,
@@ -153,7 +154,7 @@ function ShowPopup({
                   handleSendRequest(activeEntry || { url: activeUrl, metadata: activeMeta })
                 }
               >
-                <ion-icon name="mail-outline"></ion-icon>
+                <IoMailOutline />
               </button>
             </div>
           </div>

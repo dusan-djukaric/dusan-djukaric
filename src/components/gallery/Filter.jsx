@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ImgGallery from "../hooks/ImgGallery";
 import { useTranslation } from "react-i18next";
 import i18next from "../../services/i18next";
+import { IoSearchOutline } from "react-icons/io5";
 
 /**
  * Filter component - Gallery filtering and search
@@ -42,7 +43,7 @@ function Filter({ isAdmin, addedNewPicture, chosenLanguage }) {
     <>
       <div className="flex mb-12">
         <div className="mb-2 w-[200px] md:w-[380px] lg:w-[380px] border rounded-[10px] h-[2.5rem] pl-[15px] pr-[15px] shadow-sm flex items-center bg-white">
-          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+          <IoSearchOutline aria-hidden="true" />
           <input
             name="search"
             id="search"

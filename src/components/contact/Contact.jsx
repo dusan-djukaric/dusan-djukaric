@@ -4,6 +4,8 @@ import ContactImgSecond from "../assets/contactImg2.jpeg";
 import Layout from "../layout/Layout";
 import { useTranslation } from "react-i18next";
 import i18next from "../../services/i18next";
+import { IoCallOutline, IoMailOutline } from "react-icons/io5";
+import { FaSkype } from "react-icons/fa";
 
 function Contact() {
   const { t } = useTranslation();
@@ -130,19 +132,19 @@ function Contact() {
             <div className="flex flex-col my-auto mx-auto lg:mt-28 items-center lg:-ml-4">
               <div className="bg-white w-72 text-center shadow-xl">
                 <p className="py-3 bg-gray-900 text-white text-left pl-4">
-                  <ion-icon name="call-outline"></ion-icon>{" "}
+                  <IoCallOutline />{" "}
                   <a href="tel:+381642200145">+381 642200145</a>
                 </p>
               </div>
               <div className="bg-white w-72 mt-4 text-center shadow-xl">
                 <p className="py-3 bg-gray-900 text-white text-left pl-4">
-                  <ion-icon name="mail-outline"></ion-icon>{" "}
+                  <IoMailOutline />{" "}
                   dusandjukaric@yahoo.com
                 </p>
               </div>
               <div className="bg-white w-72 mt-4 text-center shadow-xl">
                 <p className="py-3 bg-gray-900 text-white text-left pl-4">
-                  <ion-icon name="logo-skype"></ion-icon> dusan.djukaric
+                  <FaSkype /> dusan.djukaric
                 </p>
               </div>
             </div>

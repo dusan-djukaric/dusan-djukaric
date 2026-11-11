@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import Contact from "./components/contact/Contact";
 import Biography from "./components/biography/Biography";
@@ -39,6 +39,16 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:paintingId" element={<Gallery />} />
           <Route path="/exhibitions" element={<Exhibitions />} />
+
+          <Route path="/rs/biografija" element={<Biography />} />
+          <Route path="/rs/galerija" element={<Gallery />} />
+          <Route path="/rs/galerija/:paintingId" element={<Gallery />} />
+          <Route path="/rs/kontakt" element={<Contact />} />
+          <Route path="/rs/izlozbe" element={<Exhibitions />} />
+          <Route path="/rs/stampa" element={<Press />} />
+
+          <Route path="/about" element={<Navigate to="/biography" replace />} />
+          <Route path="/sold" element={<Navigate to="/gallery" replace />} />
 
           <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
             <Route path="/adminDashboard" element={<AddPictures />} />
