@@ -236,9 +236,10 @@ function ImgGallery({
   // After closing a popup, load more images — but don't re-fire just because filter changed
   useEffect(() => {
     if (!showPopup && sawPopup) {
-      loadMorePicturesRef.current?.();
+      const allLoaded = filter === "available" ? allAvailablePicturesLoaded : allSoldPicturesLoaded;
+      if (!allLoaded) loadMorePicturesRef.current?.();
     }
-  }, [showPopup, sawPopup]); // intentionally excludes loadMorePictures — use the ref instead
+  }, [showPopup, sawPopup, filter, allAvailablePicturesLoaded, allSoldPicturesLoaded]);
 
   const imagesView = useMemo(
     () => filter === "available" ? availablePictures : soldPictures,
