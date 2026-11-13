@@ -10,6 +10,14 @@
 const BACKEND_URL = process.env.BACKEND_URL || 'https://dusan-djukaric-rho.vercel.app';
 const SITE_URL = 'https://www.dusandjukaric.com';
 
+const MINIMAL_HTML = '<!DOCTYPE html><html><head><title>Dusan Djukaric - Watercolor</title></head><body></body></html>';
+
+function sendMinimalHtml(res, status, extraHeaders = {}) {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  for (const [k, v] of Object.entries(extraHeaders)) res.setHeader(k, v);
+  return res.status(status).send(MINIMAL_HTML);
+}
+
 function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
@@ -54,6 +62,9 @@ module.exports = async (req, res) => {
     if (timestampId) {
       try {
         const apiRes = await fetch(`${BACKEND_URL}/s3/painting/${timestampId}`);
+        if (apiRes.status === 404) {
+          return sendMinimalHtml(res, 410, { 'Cache-Control': 'public, max-age=86400' });
+        }
         if (apiRes.ok) {
           const painting = await apiRes.json();
           const meta = painting.metadata || {};
@@ -169,6 +180,5 @@ module.exports = async (req, res) => {
   }
 
   // ── Last resort: minimal HTML so bots don't get an error ────────────────────
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.status(200).send(`<!DOCTYPE html><html><head><title>Dusan Djukaric - Watercolor</title></head><body></body></html>`);
+  sendMinimalHtml(res, 200);
 };
